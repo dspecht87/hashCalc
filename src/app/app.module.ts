@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule, MatCheckboxModule } from '@angular/material';
+import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSliderModule } from '@angular/material/slider';
@@ -29,6 +30,7 @@ import { CalculatorComponent } from './calculator/calculator.component';
     MatButtonModule,
     MatCheckboxModule,
     MatSliderModule,
+    MatCardModule,
     ChartsModule
   ],
   providers: [],

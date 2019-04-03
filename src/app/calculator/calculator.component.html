@@ -1,53 +1,98 @@
-<div fxLayout='row'>
-  <div fxLayout='column'>
-    <mat-form-field>
-      <input matInput (change)="calc($event)" [(ngModel)]="bitcoinPrice" placeholder="Bitcoin Preis in Euro">
-    </mat-form-field>
-  </div>
-</div>
-<div fxLayout='row'>
-  <div fxLayout='column'>
-    <mat-form-field>
-      <input matInput (change)="calc($event)" [(ngModel)]="energyPrice" placeholder="Strompreis in Euro">
-    </mat-form-field>
-  </div>
-</div>
-<div fxLayout='row'>
-  <div fxLayout='column'>
-    <p>Strom in kWh</p>
-    <mat-slider (change)="calc($event)" min="100" max="200000" step="50" [(ngModel)]="energy"></mat-slider>
-  </div>
-</div>
-
-
-
-<div style="text-align: left">
-
-  <div *ngIf="debug">
-    <p>energy [kWh]= {{ energy }}</p>
-    <p>Hashrate = {{ this.energy * this.hashratePerEnergy }} [TH/s]</p>
-    <p>energy price [€/kWh]= {{ energyPrice }}</p>
-    <p>hashrate per energy [TH/kWh] = {{hashratePerEnergy}}</p>
-    <p>bitcoin per hashrate [BTC/TH] = {{bitcoinPerHashrate}}</p>
-    <p>Wartungskosten in % {{phi * 100}}</p>
-    <p>bitcoin pro Jahr [BTC/y] = {{ 8760 * this.energy * this.hashratePerEnergy * this.bitcoinPerHashrate }}</p>
-    <p>{{ lineChartData[0].data }}</p>
-    <p>{{ lineChartData[1].data }}</p>
+<div fxLayout="column" fxLayoutAlign="center center">
+  <div fxLayout='row'>
+    <div fxLayout='column'>
+      <p>Strom in kWh:<br>
+      energy [kWh]= {{ energy }}</p>
+      <mat-slider (change)="calc($event)" min="100" max="200000" step="50" [(ngModel)]="energy"></mat-slider>
+    </div>
   </div>
 
 
-</div>
-<div fxLayout='row'>
-  <div fxLayout='column'>
-    <div class="flex">
-      <div class="flex-item">
-        <div style="display: block;">
-          <canvas baseChart width="400" height="400" [datasets]="lineChartData" [labels]="lineChartLabels"
-            [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend"
-            [chartType]="lineChartType">
-          </canvas>
+  <div fxLayout="row wrap" fxLayoutGap="32px" fxLayoutAlign="flex-start">
+
+    <mat-card fxFlex="0 1 calc(50.3% - 32px)">
+      <mat-card-header>
+        <mat-card-title>Ohne Bitcoin</mat-card-title>
+      </mat-card-header>
+      <mat-form-field>
+        <input matInput (change)="calc($event)" [(ngModel)]="energyPrice" placeholder="Strompreis in Euro [€/kWh]">
+      </mat-form-field>
+      <p>Strom(P) = {{ energy }} kWh</p>
+      <p>Einnahmen: P * Strompreis * t</p>
+
+
+    </mat-card>
+
+
+    <mat-card fxFlex="0 1 calc(50% - 32px)">
+      <mat-card-header>
+        <mat-card-title>Mit Bitcoin</mat-card-title>
+      </mat-card-header>
+
+      <mat-form-field>
+        <input matInput (change)="calc($event)" [(ngModel)]="bitcoinPrice" placeholder="Bitcoin Preis in Euro">
+      </mat-form-field>
+
+      <p>Strom(P) = {{ energy }} kWh</p>
+      <p>Hashrate: P * {{this.hashratePerEnergy}} = {{ this.energy * this.hashratePerEnergy }} TH/s </p>
+
+      <p>Hashrate = {{ this.energy * this.hashratePerEnergy }} [TH/s]</p>
+      <p>hashrate per energy [TH/kWh] = {{hashratePerEnergy}}</p>
+      <p>bitcoin per hashrate [BTC/TH] = {{bitcoinPerHashrate}}</p>
+      <p>Wartungskosten in % {{phi * 100}}</p>
+      <p>bitcoin pro Jahr [BTC/y] = {{ 8760 * this.energy * this.hashratePerEnergy * this.bitcoinPerHashrate }}</p>
+
+    </mat-card>
+
+  </div>
+
+
+  <div style="text-align: left">
+
+
+
+  </div>
+  <div fxLayout='row'>
+
+    <div fxLayout='column'>
+      <div class="flex">
+        <div class="flex-item">
+          <div style="display: block;">
+            <canvas baseChart width="400" height="400" [datasets]="lineChartData" [labels]="lineChartLabels"
+              [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend"
+              [chartType]="lineChartType">
+            </canvas>
+          </div>
         </div>
       </div>
     </div>
+    <!--
+      <div fxLayout='column'>
+          <div class="flex">
+            <div class="flex-item">
+              <div style="display: block;">
+                <canvas baseChart width="400" height="400" [datasets]="lineChartData" [labels]="lineChartLabels"
+                  [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend"
+                  [chartType]="lineChartType">
+                </canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div fxLayout='column'>
+            <div class="flex">
+              <div class="flex-item">
+                <div style="display: block;">
+                  <canvas baseChart width="400" height="400" [datasets]="lineChartData" [labels]="lineChartLabels"
+                    [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend"
+                    [chartType]="lineChartType">
+                  </canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          -->
   </div>
+
 </div>
