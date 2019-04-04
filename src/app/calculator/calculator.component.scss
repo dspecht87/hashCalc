@@ -1,9 +1,9 @@
 mat-slider {
-    width: 1000px;
-  }
+  width: 100%;
+}
 
 chart-container {
-    width: 600px;
+    width: 1000px;
 }
 
 mat-card {
@@ -12,4 +12,36 @@ mat-card {
 
 mat-card-title {
   font-weight: bold;
+}
+
+.label {
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 12px;
+}
+
+.has-label {
+  margin-top: 2px;
+}
+
+.red-border {
+  border-color: red;
+  border-width: 2px;
+  border-style: solid
+}
+
+.grey-border {
+  border-color: rgba(77,83,96,1);
+  border-width: 2px;
+  border-style: solid
+}
+
+.neutal-border {
+    border-color: #ccc;
+    border-width: 2px;
+    border-style: solid;
+}
+
+.small {
+  font-size: small;
+  color: rgba(0, 0, 0, 0.7);
 }

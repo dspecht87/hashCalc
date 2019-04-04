@@ -14,7 +14,7 @@ export class CalculatorComponent implements OnInit, OnChanges {
   public debug = true;
 
   // available energy in kwh
-  public energy = 300;
+  public energy = 9000;
   
   // // revenue without bitcoin
   // price per kwh in euro
@@ -22,9 +22,17 @@ export class CalculatorComponent implements OnInit, OnChanges {
 
   // // revenue with bitcoin
   // hashrate per kwh
-  public hashratePerEnergy =  1 / 53 * 1000;
-  // bitcoin per hashrate
-  public bitcoinPerHashrate = 1 / 44000000 * 6 * 12.5;
+  // public hashratePerEnergy =  1 / 53 * 1000;
+  
+  // power efficiency in J/TH
+  public powerEfficiency = 57;
+
+  public hashRate: number;
+  public totalHashRate = 44000000;
+  // bitcoin income per year
+  public bitcoinIncome: number;
+  public euroIncome: number;
+
   // bitcoin price in euro
   public bitcoinPrice = 4215.93;
   // wartungskosten in %
@@ -118,13 +126,17 @@ export class CalculatorComponent implements OnInit, OnChanges {
     console.log(dataWithoutBTC);
     this.lineChartData[0].data = dataWithoutBTC;
 
-
     // generate data for with bitcoin
+
+    this.hashRate = this.energy * (1/ this.powerEfficiency * 1000);
+    this.bitcoinIncome = this.hashRate * this.hashRate / (this.totalHashRate + this.hashRate) * 6 * 12.5;
+    this.euroIncome = this.bitcoinIncome * this.bitcoinPrice;
+
     let dataWithBTC = [];
     for(let i = 0; i < time; i++){
-      const initialCost = this.energy * this.hashratePerEnergy * 150;
+      const initialCost = this.hashRate * 150;
       
-      const value = i * 8760 * this.energy * this.hashratePerEnergy * this.bitcoinPerHashrate * this.bitcoinPrice * (1/ (1 - this.phi))
+      const value = i * this.euroIncome * (1/ (1 - this.phi))
        - initialCost;
       dataWithBTC = dataWithBTC.concat(value);
     }

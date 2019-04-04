@@ -1,86 +1,136 @@
-<div fxLayout="column" fxLayoutAlign="center center">
-  <div fxLayout='row'>
-    <div fxLayout='column'>
-      <p>Strom in kWh:<br>
-      energy [kWh]= {{ energy }}</p>
-      <mat-slider (change)="calc($event)" min="100" max="200000" step="50" [(ngModel)]="energy"></mat-slider>
-    </div>
-  </div>
+<div fxLayout="row">
 
+  <div fxFlex="1 1 0"></div>
+  <div fxFlex="0 0 1200px">
 
-  <div fxLayout="row wrap" fxLayoutGap="32px" fxLayoutAlign="flex-start">
+    <div fxLayout="column" fxLayoutGap="32px" fxLayoutAlign="center">
 
-    <mat-card fxFlex="0 1 calc(50.3% - 32px)">
-      <mat-card-header>
-        <mat-card-title>Ohne Bitcoin</mat-card-title>
-      </mat-card-header>
-      <mat-form-field>
-        <input matInput (change)="calc($event)" [(ngModel)]="energyPrice" placeholder="Strompreis in Euro [€/kWh]">
-      </mat-form-field>
-      <p>Strom(P) = {{ energy }} kWh</p>
-      <p>Einnahmen: P * Strompreis * t</p>
+      <div fxLayout='row'>
+        <div fxLayout='column' fxFlex="1 1 0">
+          <mat-card class="neutal-border">
+              <p class="label">Energy</p>
+              <p class="has-label">{{ energy | energyPipe }}</p>
 
-
-    </mat-card>
-
-
-    <mat-card fxFlex="0 1 calc(50% - 32px)">
-      <mat-card-header>
-        <mat-card-title>Mit Bitcoin</mat-card-title>
-      </mat-card-header>
-
-      <mat-form-field>
-        <input matInput (change)="calc($event)" [(ngModel)]="bitcoinPrice" placeholder="Bitcoin Preis in Euro">
-      </mat-form-field>
-
-      <p>Strom(P) = {{ energy }} kWh</p>
-      <p>Hashrate: P * {{this.hashratePerEnergy}} = {{ this.energy * this.hashratePerEnergy }} TH/s </p>
-
-      <p>Hashrate = {{ this.energy * this.hashratePerEnergy }} [TH/s]</p>
-      <p>hashrate per energy [TH/kWh] = {{hashratePerEnergy}}</p>
-      <p>bitcoin per hashrate [BTC/TH] = {{bitcoinPerHashrate}}</p>
-      <p>Wartungskosten in % {{phi * 100}}</p>
-      <p>bitcoin pro Jahr [BTC/y] = {{ 8760 * this.energy * this.hashratePerEnergy * this.bitcoinPerHashrate }}</p>
-
-    </mat-card>
-
-  </div>
-
-
-  <div style="text-align: left">
-
-
-
-  </div>
-  <div fxLayout='row'>
-
-    <div fxLayout='column'>
-      <div class="flex">
-        <div class="flex-item">
-          <div style="display: block;">
-            <canvas baseChart width="400" height="400" [datasets]="lineChartData" [labels]="lineChartLabels"
-              [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend"
-              [chartType]="lineChartType">
-            </canvas>
-          </div>
+            <mat-slider (change)="calc($event)" min="100" max="200000" step="50" [(ngModel)]="energy"></mat-slider>
+            <p class="small">The energy that is available.</p>
+          </mat-card>
         </div>
       </div>
-    </div>
-    <!--
-      <div fxLayout='column'>
-          <div class="flex">
-            <div class="flex-item">
-              <div style="display: block;">
-                <canvas baseChart width="400" height="400" [datasets]="lineChartData" [labels]="lineChartLabels"
-                  [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend"
-                  [chartType]="lineChartType">
-                </canvas>
+
+
+      <div fxLayout="row wrap" fxLayoutGap="32px">
+
+        <mat-card class="grey-border" fxFlex="1 1 calc(50% - 32px)">
+          <mat-card-header>
+            <mat-card-title>Ohne Bitcoin</mat-card-title>
+          </mat-card-header>
+          <mat-form-field>
+            <input matInput (change)="calc($event)" [(ngModel)]="energyPrice" placeholder="Enery Price in Euro [€/kWh]">
+          </mat-form-field>
+
+
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <div>
+                <p class="label">Revenue</p>
+                <p class="has-label">
+                  {{ 8760 * this.energy * this.energyPrice | number : '1.2-2' }} €/y * time
+                </p>
               </div>
-            </div>
-          </div>
-        </div>
+
+            </mat-expansion-panel-header>
+
+            <p><i>Formula:</i> Revenue =
+              <span matTooltip="{{this.energy | energyPipe}}">Energy</span>
+              *
+              <span matTooltip="{{this.energyPrice | energyPipe}}">Energy Price * Time</span>
+            </p>
+          </mat-expansion-panel>
+
+
+
+        </mat-card>
+
+
+        <mat-card class="red-border" fxFlex="1 1 calc(50% - 32px)">
+          <mat-card-header>
+            <mat-card-title>Mit Bitcoin</mat-card-title>
+          </mat-card-header>
+
+          <mat-form-field>
+            <input matInput (change)="calc($event)" [(ngModel)]="bitcoinPrice" placeholder="Bitcoin Prices in Euro [€/BTC]">
+          </mat-form-field>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+
+              <div>
+                <p class="label">Hash Rate</p>
+                <p class="has-label"> {{ hashRate | number : '1.2-2'}} TH/s</p>
+              </div>
+
+            </mat-expansion-panel-header>
+
+            <p>Formula: Hash Rate = Energy * (1 / Power Efficiency) </p>
+
+            <mat-form-field>
+              <mat-label>Power Efficiency(PE)</mat-label>
+              <select matNativeControl (change)="calc($event)" [(ngModel)]="powerEfficiency">
+                <option value="57">57 J/TH - S15 High-Performance Mode</option>
+                <option value="50">50 J/TH - S15 Energy-Saving Mode</option>
+              </select>
+            </mat-form-field>
+          </mat-expansion-panel>
+
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <div>
+                <p class="label">Bitcoin</p>
+                <p class="has-label">
+                  {{ bitcoinIncome | number : '1.2-2' }}
+                  BTC/y</p>
+              </div>
+
+            </mat-expansion-panel-header>
+
+            <p><i>Formula:</i> Bitcoin = Hash Rate * Hash Rate / (Total Hash Rate + Hash Rate) * 8760 * 6 * 12.5</p>
+
+            <p>Total Hash Rate = {{ this.totalHashRate }} THs</p>
+          </mat-expansion-panel>
+
+
+
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <div>
+                <p class="label">Revenue</p>
+                <p class="has-label">
+                  {{ euroIncome * (1/ (1 - this.phi)) | number : '1.2-2'}}
+                  €/y * t - {{this.energy * (1/ this.powerEfficiency * 1000) * 150 | number: '1.2-2'}} €</p>
+              </div>
+
+            </mat-expansion-panel-header>
+
+
+            <p>Formula: R = B * BP * (1 / (1 - phi))</p>
+
+            <p>Wartungskosten (phi) = {{phi * 100}}%</p>
+
+
+          </mat-expansion-panel>
+
+
+        </mat-card>
+
+      </div>
+
+      <div fxLayout='row'>
 
         <div fxLayout='column'>
+          <mat-card class="neutal-border">
             <div class="flex">
               <div class="flex-item">
                 <div style="display: block;">
@@ -91,8 +141,38 @@
                 </div>
               </div>
             </div>
-          </div>
-          -->
-  </div>
+          </mat-card>
+        </div>
+        <!--
+            <div fxLayout='column'>
+                <div class="flex">
+                  <div class="flex-item">
+                    <div style="display: block;">
+                      <canvas baseChart width="400" height="400" [datasets]="lineChartData" [labels]="lineChartLabels"
+                        [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend"
+                        [chartType]="lineChartType">
+                      </canvas>
+                    </div>
+                  </div>
+                </div>
+              </div>
+      
+              <div fxLayout='column'>
+                  <div class="flex">
+                    <div class="flex-item">
+                      <div style="display: block;">
+                        <canvas baseChart width="400" height="400" [datasets]="lineChartData" [labels]="lineChartLabels"
+                          [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend"
+                          [chartType]="lineChartType">
+                        </canvas>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                -->
+      </div>
 
+    </div>
+  </div>
+  <div fxFlex="1 1 0"></div>
 </div>

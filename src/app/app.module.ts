@@ -7,18 +7,26 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 import { ChartsModule } from 'ng2-charts';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CalculatorComponent } from './calculator/calculator.component';
 
+import { HashratePipe } from './_util/hashratePipe';
+import { EnergyPipe } from './_util/energyPipe';
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    CalculatorComponent
+    CalculatorComponent,
+    HashratePipe,
+    EnergyPipe
   ],
   imports: [
     BrowserModule,
@@ -31,6 +39,8 @@ import { CalculatorComponent } from './calculator/calculator.component';
     MatCheckboxModule,
     MatSliderModule,
     MatCardModule,
+    MatExpansionModule,
+    MatTooltipModule,
     ChartsModule
   ],
   providers: [],
