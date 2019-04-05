@@ -129,7 +129,7 @@ export class CalculatorComponent implements OnInit, OnChanges {
     // generate data for with bitcoin
 
     this.hashRate = this.energy * (1/ this.powerEfficiency * 1000);
-    this.bitcoinIncome = this.hashRate * this.hashRate / (this.totalHashRate + this.hashRate) * 6 * 12.5;
+    this.bitcoinIncome = this.hashRate / (this.totalHashRate + this.hashRate) * 8760 * 6 * 12.5;
     this.euroIncome = this.bitcoinIncome * this.bitcoinPrice;
 
     let dataWithBTC = [];
