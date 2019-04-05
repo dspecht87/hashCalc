@@ -11,7 +11,7 @@
               <p class="label">Energy</p>
               <p class="has-label">{{ energy | energyPipe }}</p>
 
-            <mat-slider (change)="calc($event)" min="100" max="200000" step="50" [(ngModel)]="energy"></mat-slider>
+            <mat-slider (change)="energyChanged($event)" min="100" max="200000" step="50" [(ngModel)]="energy"></mat-slider>
             <p class="small">The energy that is available.</p>
           </mat-card>
         </div>
@@ -20,12 +20,12 @@
 
       <div fxLayout="row wrap" fxLayoutGap="32px">
 
-        <mat-card class="grey-border" fxFlex="1 1 calc(50% - 32px)">
+        <mat-card class="grey-border" fxFlex="1 1 energyChanged(50% - 32px)">
           <mat-card-header>
             <mat-card-title>Ohne Bitcoin</mat-card-title>
           </mat-card-header>
           <mat-form-field>
-            <input matInput (change)="calc($event)" [(ngModel)]="energyPrice" placeholder="Enery Price in Euro [€/kWh]">
+            <input matInput (change)="energyChanged($event)" [(ngModel)]="energyPrice" placeholder="Enery Price in Euro [€/kWh]">
           </mat-form-field>
 
 
@@ -53,13 +53,13 @@
         </mat-card>
 
 
-        <mat-card class="red-border" fxFlex="1 1 calc(50% - 32px)">
+        <mat-card class="red-border" fxFlex="1 1 energyChanged(50% - 32px)">
           <mat-card-header>
             <mat-card-title>Mit Bitcoin</mat-card-title>
           </mat-card-header>
 
           <mat-form-field>
-            <input matInput (change)="calc($event)" [(ngModel)]="bitcoinPrice" placeholder="Bitcoin Prices in Euro [€/BTC]">
+            <input matInput (change)="energyChanged($event)" [(ngModel)]="bitcoinPrice" placeholder="Bitcoin Prices in Euro [€/BTC]">
           </mat-form-field>
 
           <mat-expansion-panel>
@@ -76,7 +76,7 @@
 
             <mat-form-field>
               <mat-label>Power Efficiency(PE)</mat-label>
-              <select matNativeControl (change)="calc($event)" [(ngModel)]="powerEfficiency">
+              <select matNativeControl (change)="energyChanged($event)" [(ngModel)]="powerEfficiency">
                 <option value="57">57 J/TH - S15 High-Performance Mode</option>
                 <option value="50">50 J/TH - S15 Energy-Saving Mode</option>
               </select>

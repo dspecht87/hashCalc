@@ -18,7 +18,7 @@ export class CalculatorComponent implements OnInit, OnChanges {
   
   // // revenue without bitcoin
   // price per kwh in euro
-  public energyPrice = 0.08;
+  public energyPrice = 0.05;
 
   // // revenue with bitcoin
   // hashrate per kwh
@@ -112,7 +112,7 @@ export class CalculatorComponent implements OnInit, OnChanges {
   calc() {
    
     // time in years
-    const time = 6;
+    const time = 5;
 
 
     // generate data for without bitcoin
