@@ -17,11 +17,11 @@ export class EnergyPipe implements PipeTransform {
 
     let value = (+input);
     if (value > Math.pow(10, 4)) {
-      this.metric = "mWh";
+      this.metric = "mW";
       const string = (value / Math.pow(10, 4)).toFixed(decimal_places) + ' ' + this.metric;
       return string;
     } else {
-      this.metric = "kWh";
+      this.metric = "kW";
       const string = value + ' ' + this.metric;
       return string;
     }

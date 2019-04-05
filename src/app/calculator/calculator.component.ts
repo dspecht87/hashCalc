@@ -13,7 +13,7 @@ export class CalculatorComponent implements OnInit, OnChanges {
   //debug switch
   public debug = true;
 
-  // available energy in kwh
+  // available energy in kw
   public energy = 9000;
   
   // // revenue without bitcoin
@@ -134,7 +134,7 @@ export class CalculatorComponent implements OnInit, OnChanges {
 
     let dataWithBTC = [];
     for(let i = 0; i < time; i++){
-      const initialCost = this.hashRate * 150;
+      const initialCost = this.hashRate * 50;
       
       const value = i * this.euroIncome * (1/ (1 - this.phi))
        - initialCost;
