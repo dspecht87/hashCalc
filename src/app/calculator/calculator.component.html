@@ -25,7 +25,7 @@
             <mat-card-title>Without Bitcoin</mat-card-title>
           </mat-card-header>
           <mat-form-field>
-            <input matInput (change)="energyChanged($event)" [(ngModel)]="energyPrice" placeholder="Enery Price in Euro [€/kWh]">
+            <input matInput (change)="energyChanged($event)" [(ngModel)]="energyPrice" placeholder="Energy Price in Euro [€/kWh]">
           </mat-form-field>
 
 
@@ -97,7 +97,7 @@
 
             <p><i>Formula:</i> Bitcoin = Hash Rate * Hash Rate / (Total Hash Rate + Hash Rate) * 8760 * 6 * 12.5</p>
 
-            <p>Total Hash Rate = {{ this.totalHashRate }} THs</p>
+            <p>Total Hash Rate: {{ this.totalHashRate }} THs</p>
           </mat-expansion-panel>
 
 
@@ -115,9 +115,9 @@
             </mat-expansion-panel-header>
 
 
-            <p><i>Formula:</i> Bitcoin Income * Bitcoin Price * (1 - Maintenace Costs) - Initial Costs</p>
+            <p><i>Formula:</i> Revenue = Bitcoin Income * Bitcoin Price * (1 - Maintenance Costs) - Initial Costs</p>
 
-            <p>Maintenace Costs: {{phi * 100}}%</p>
+            <p>Maintenance Costs: {{phi * 100}}%</p>
 
             <p>Initial Costs: Hash Rate * 50€</p>
 
