@@ -22,7 +22,7 @@
 
         <mat-card class="grey-border" fxFlex="1 1 calc(50% - 32px)">
           <mat-card-header>
-            <mat-card-title>Ohne Bitcoin</mat-card-title>
+            <mat-card-title>Without Bitcoin</mat-card-title>
           </mat-card-header>
           <mat-form-field>
             <input matInput (change)="energyChanged($event)" [(ngModel)]="energyPrice" placeholder="Enery Price in Euro [€/kWh]">
@@ -55,7 +55,7 @@
 
         <mat-card class="red-border" fxFlex="1 1 calc(50% - 32px)">
           <mat-card-header>
-            <mat-card-title>Mit Bitcoin</mat-card-title>
+            <mat-card-title>With Bitcoin</mat-card-title>
           </mat-card-header>
 
           <mat-form-field>
@@ -109,16 +109,17 @@
                 <p class="label">Revenue</p>
                 <p class="has-label">
                   {{ euroIncome * (1/ (1 - this.phi)) | number : '1.2-2'}}
-                  €/y * t - {{this.energy * (1/ this.powerEfficiency * 1000) * 150 | number: '1.2-2'}} €</p>
+                  €/y * t - {{hashRate * 50 | number: '1.2-2'}} €</p>
               </div>
 
             </mat-expansion-panel-header>
 
 
-            <p>Formula: R = B * BP * (1 / (1 - phi))</p>
+            <p><i>Formula:</i> Bitcoin Income * Bitcoin Price * (1 - Maintenace Costs) - Initial Costs</p>
 
-            <p>Wartungskosten (phi) = {{phi * 100}}%</p>
+            <p>Maintenace Costs: {{phi * 100}}%</p>
 
+            <p>Initial Costs: Hash Rate * 50€</p>
 
           </mat-expansion-panel>
 
