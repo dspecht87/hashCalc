@@ -1,6 +1,7 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, LOCALE_ID, Inject } from '@angular/core';
 import { ChartDataSets, ChartOptions } from 'chart.js';
 import { Color, Label } from 'ng2-charts';
+import { DecimalPipe } from '@angular/common';
 // import * as pluginAnnotations from 'chartjs-plugin-annotation';
 
 @Component({
@@ -8,14 +9,14 @@ import { Color, Label } from 'ng2-charts';
   templateUrl: './calculator.component.html',
   styleUrls: ['./calculator.component.scss']
 })
-export class CalculatorComponent implements OnInit, OnChanges {
+export class CalculatorComponent implements OnInit {
 
   //debug switch
   public debug = true;
 
   // available energy in kw
   public energy = 9000;
-  
+
   // // revenue without bitcoin
   // price per kwh in euro
   public energyPrice = 0.05;
@@ -23,7 +24,7 @@ export class CalculatorComponent implements OnInit, OnChanges {
   // // revenue with bitcoin
   // hashrate per kwh
   // public hashratePerEnergy =  1 / 53 * 1000;
-  
+
   // power efficiency in J/TH
   public powerEfficiency = 57;
 
@@ -49,30 +50,27 @@ export class CalculatorComponent implements OnInit, OnChanges {
     responsive: true,
     scales: {
       // We use this empty structure as a placeholder for dynamic theming.
-      xAxes: [{}],
+      xAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: 'Years'
+        }
+      }],
       yAxes: [
         {
           id: 'y-axis-0',
           position: 'left',
+          ticks: {
+            // Include a dollar sign in the ticks
+            callback: function (value: number, index, values) {
+              return new DecimalPipe('en-US').transform(value) + ' €';
+            }
+          }
         }
       ]
     },
     annotation: {
-      annotations: [
-        {
-          type: 'line',
-          mode: 'vertical',
-          scaleID: 'x-axis-0',
-          value: 'March',
-          borderColor: 'orange',
-          borderWidth: 2,
-          label: {
-            enabled: true,
-            fontColor: 'orange',
-            content: 'LineAnno'
-          }
-        },
-      ],
+      annotations: [],
     },
   };
   public lineChartColors: Color[] = [
@@ -97,7 +95,7 @@ export class CalculatorComponent implements OnInit, OnChanges {
   public lineChartType = 'line';
   // public lineChartPlugins = [pluginAnnotations];
 
-  constructor() { }
+  constructor(@Inject(LOCALE_ID) public locale: string) { }
 
   ngOnInit() {
     this.calc();
@@ -110,16 +108,16 @@ export class CalculatorComponent implements OnInit, OnChanges {
   }
 
   calc() {
-   
+
     // time in years
     const time = 5;
 
 
     // generate data for without bitcoin
     let dataWithoutBTC = [];
-    for(let i = 0; i < time; i++){
-      
-      const value = i * 8760 * this.energy* this.energyPrice;
+    for (let i = 0; i < time; i++) {
+
+      const value = i * 8760 * this.energy * this.energyPrice;
       dataWithoutBTC = dataWithoutBTC.concat(value);
     }
     console.log("dataWithoutBTC:");
@@ -128,16 +126,16 @@ export class CalculatorComponent implements OnInit, OnChanges {
 
     // generate data for with bitcoin
 
-    this.hashRate = this.energy * (1/ this.powerEfficiency * 1000);
+    this.hashRate = this.energy * (1 / this.powerEfficiency * 1000);
     this.bitcoinIncome = this.hashRate / (this.totalHashRate + this.hashRate) * 8760 * 6 * 12.5;
     this.euroIncome = this.bitcoinIncome * this.bitcoinPrice;
 
     let dataWithBTC = [];
-    for(let i = 0; i < time; i++){
+    for (let i = 0; i < time; i++) {
       const initialCost = this.hashRate * 50;
-      
-      const value = i * this.euroIncome * (1/ (1 - this.phi))
-       - initialCost;
+
+      const value = i * this.euroIncome * (1 / (1 - this.phi))
+        - initialCost;
       dataWithBTC = dataWithBTC.concat(value);
     }
     console.log("dataWithBTC:");
@@ -146,14 +144,11 @@ export class CalculatorComponent implements OnInit, OnChanges {
 
     // generate labels
     let labels = [];
-    for(let i = 0; i < time; i++){
+    for (let i = 0; i < time; i++) {
       labels = labels.concat(+i);
     }
     this.lineChartLabels = labels;
   }
 
-  ngOnChanges(){
-    
-  }
-
 }
+

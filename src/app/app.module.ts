@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule, MatCheckboxModule } from '@angular/material';
@@ -43,7 +43,9 @@ import { EnergyPipe } from './_util/energyPipe';
     MatTooltipModule,
     ChartsModule
   ],
-  providers: [],
+  providers: [
+    {provide: LOCALE_ID, useValue: "en-US"}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
