@@ -1,7 +1,8 @@
-import { Component, OnInit, OnChanges, LOCALE_ID, Inject } from '@angular/core';
+import { Component, OnInit, OnChanges, LOCALE_ID, Inject, ChangeDetectorRef, ApplicationRef, ViewChild } from '@angular/core';
 import { ChartDataSets, ChartOptions } from 'chart.js';
 import { Color, Label } from 'ng2-charts';
 import { DecimalPipe } from '@angular/common';
+import { MatExpansionPanel } from '@angular/material';
 // import * as pluginAnnotations from 'chartjs-plugin-annotation';
 
 @Component({
@@ -38,7 +39,6 @@ export class CalculatorComponent implements OnInit {
   public bitcoinPrice = 4215.93;
   // wartungskosten in %
   public phi = 0.1;
-
 
   // chart
   public lineChartData: ChartDataSets[] = [
@@ -95,7 +95,9 @@ export class CalculatorComponent implements OnInit {
   public lineChartType = 'line';
   // public lineChartPlugins = [pluginAnnotations];
 
-  constructor(@Inject(LOCALE_ID) public locale: string) { }
+  @ViewChild(MatExpansionPanel) panel: MatExpansionPanel;
+
+  constructor(@Inject(LOCALE_ID) public locale: string, private ref: ApplicationRef) { }
 
   ngOnInit() {
     this.calc();
@@ -104,10 +106,13 @@ export class CalculatorComponent implements OnInit {
   energyChanged(e) {
     console.log(e);
     this.calc();
-
   }
 
   calc() {
+
+    // next block reward halving: 24 May 2020 01:19:43
+    let halvingDate = new Date(1590275983000);
+    console.log(halvingDate);
 
     // time in years
     const time = 5;
@@ -120,26 +125,61 @@ export class CalculatorComponent implements OnInit {
       const value = i * 8760 * this.energy * this.energyPrice;
       dataWithoutBTC = dataWithoutBTC.concat(value);
     }
-    console.log("dataWithoutBTC:");
-    console.log(dataWithoutBTC);
+    
     this.lineChartData[0].data = dataWithoutBTC;
 
     // generate data for with bitcoin
 
     this.hashRate = this.energy * (1 / this.powerEfficiency * 1000);
+
+    let blockReward = 12.5;
+
     this.bitcoinIncome = this.hashRate / (this.totalHashRate + this.hashRate) * 8760 * 6 * 12.5;
     this.euroIncome = this.bitcoinIncome * this.bitcoinPrice;
 
     let dataWithBTC = [];
-    for (let i = 0; i < time; i++) {
-      const initialCost = this.hashRate * 50;
 
-      const value = i * this.euroIncome * (1 / (1 - this.phi))
-        - initialCost;
-      dataWithBTC = dataWithBTC.concat(value);
+    let timeCursor = new Date();
+
+    const initialCost = this.hashRate * 50;
+    dataWithBTC[0] = -initialCost;
+
+    for (let i = 1; i < time; i++) {
+
+
+      //increment time cursor + 1 year
+      let oldTime = new Date(timeCursor.getTime());
+      timeCursor.setFullYear(timeCursor.getFullYear() + 1);
+
+
+      let accReward = 0;
+      if (halvingDate.getTime() < timeCursor.getTime()) {
+
+        // get fraction of year
+        let fractionOfYear = (halvingDate.getTime() - oldTime.getTime()) / (timeCursor.getTime() - oldTime.getTime())
+
+        accReward = fractionOfYear * this.hashRate / (this.totalHashRate + this.hashRate) * 8760 * 6 * blockReward * this.bitcoinPrice * (1 / (1 - this.phi));
+
+        blockReward = blockReward / 2;
+
+        // get blocks with new reward
+        accReward += (1 - fractionOfYear) * this.hashRate / (this.totalHashRate + this.hashRate) * 8760 * 6 * blockReward * this.bitcoinPrice * (1 / (1 - this.phi));
+
+        let value = dataWithBTC[i - 1] + accReward;
+
+        halvingDate.setFullYear(halvingDate.getFullYear() + 4);
+
+        dataWithBTC = dataWithBTC.concat(value);
+
+      } else {
+        const delta = this.hashRate / (this.totalHashRate + this.hashRate) * 8760 * 6 * blockReward * this.bitcoinPrice * (1 / (1 - this.phi));
+
+        const value = dataWithBTC[i - 1] +  delta;
+
+        dataWithBTC = dataWithBTC.concat(value);
+      }
+
     }
-    console.log("dataWithBTC:");
-    console.log(dataWithBTC);
     this.lineChartData[1].data = dataWithBTC;
 
     // generate labels

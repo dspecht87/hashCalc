@@ -8,10 +8,11 @@
       <div fxLayout='row'>
         <div fxLayout='column' fxFlex="1 1 0">
           <mat-card class="neutal-border">
-              <p class="label">Energy</p>
-              <p class="has-label">{{ energy | energyPipe }}</p>
+            <p class="label">Energy</p>
+            <p class="has-label">{{ energy | energyPipe }}</p>
 
-            <mat-slider (change)="energyChanged($event)" min="100" max="200000" step="50" [(ngModel)]="energy"></mat-slider>
+            <mat-slider (change)="energyChanged($event)" min="100" max="200000" step="50" [(ngModel)]="energy">
+            </mat-slider>
             <p class="small">The energy that is available.</p>
           </mat-card>
         </div>
@@ -20,111 +21,114 @@
 
       <div fxLayout="row wrap" fxLayoutGap="32px">
 
-        <mat-card class="grey-border" fxFlex="1 1 calc(50% - 32px)">
-          <mat-card-header>
-            <mat-card-title>Without Bitcoin</mat-card-title>
-          </mat-card-header>
-          <mat-form-field>
-            <input matInput (change)="energyChanged($event)" [(ngModel)]="energyPrice" placeholder="Energy Price in Euro [€/kWh]">
-          </mat-form-field>
+        <div fxFlex="1 1 calc(50% - 32px)">
+          <mat-card class="grey-border">
+            <mat-card-header>
+              <mat-card-title>Without Bitcoin</mat-card-title>
+            </mat-card-header>
+            <mat-form-field>
+              <input matInput (change)="energyChanged($event)" [(ngModel)]="energyPrice"
+                placeholder="Energy Price in Euro [€/kWh]">
+            </mat-form-field>
 
 
 
-          <mat-expansion-panel>
-            <mat-expansion-panel-header>
-              <div>
-                <p class="label">Revenue</p>
-                <p class="has-label">
-                  {{ 8760 * this.energy * this.energyPrice | number : '1.2-2' }} €/y * time
-                </p>
-              </div>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <div>
+                  <p class="label">Revenue</p>
+                  <p class="has-label">
+                    {{ 8760 * this.energy * this.energyPrice | number : '1.2-2' }} €/y * time
+                  </p>
+                </div>
 
-            </mat-expansion-panel-header>
+              </mat-expansion-panel-header>
 
-            <p><i>Formula:</i> Revenue =
-              <span matTooltip="{{this.energy | energyPipe}}">Energy</span>
-              *
-              <span matTooltip="{{this.energyPrice | energyPipe}}">Energy Price * Time</span>
-            </p>
-          </mat-expansion-panel>
+              <p><i>Formula:</i> Revenue =
+                <span matTooltip="{{this.energy | energyPipe}}">Energy</span>
+                *
+                <span matTooltip="{{this.energyPrice | energyPipe}}">Energy Price * Time</span>
+              </p>
+            </mat-expansion-panel>
 
+          </mat-card>
+        </div>
 
-
-        </mat-card>
-
-
-        <mat-card class="red-border" fxFlex="1 1 calc(50% - 32px)">
-          <mat-card-header>
-            <mat-card-title>With Bitcoin</mat-card-title>
-          </mat-card-header>
-
-          <mat-form-field>
-            <input matInput (change)="energyChanged($event)" [(ngModel)]="bitcoinPrice" placeholder="Bitcoin Prices in Euro [€/BTC]">
-          </mat-form-field>
-
-          <mat-expansion-panel>
-            <mat-expansion-panel-header>
-
-              <div>
-                <p class="label">Hash Rate</p>
-                <p class="has-label"> {{ hashRate | number : '1.2-2'}} TH/s</p>
-              </div>
-
-            </mat-expansion-panel-header>
-
-            <p>Formula: Hash Rate = Energy * (1 / Power Efficiency) </p>
+        <div fxFlex="1 1 calc(50% - 32px)">
+          <mat-card class="red-border">
+            <mat-card-header>
+              <mat-card-title>With Bitcoin</mat-card-title>
+            </mat-card-header>
 
             <mat-form-field>
-              <mat-label>Power Efficiency(PE)</mat-label>
-              <select matNativeControl (change)="energyChanged($event)" [(ngModel)]="powerEfficiency">
-                <option value="57">57 J/TH - S15 High-Performance Mode</option>
-                <option value="50">50 J/TH - S15 Energy-Saving Mode</option>
-              </select>
+              <input matInput (change)="energyChanged($event)" [(ngModel)]="bitcoinPrice"
+                placeholder="Bitcoin Prices in Euro [€/BTC]">
             </mat-form-field>
-          </mat-expansion-panel>
+
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+
+                <div>
+                  <p class="label">Hash Rate</p>
+                  <p class="has-label"> {{ hashRate | number : '1.2-2'}} TH/s</p>
+                </div>
+
+              </mat-expansion-panel-header>
+
+              <p>Formula: Hash Rate = Energy * (1 / Power Efficiency) </p>
+
+              <mat-form-field>
+                <mat-label>Power Efficiency(PE)</mat-label>
+                <select matNativeControl (change)="energyChanged($event)" [(ngModel)]="powerEfficiency">
+                  <option value="57">57 J/TH - S15 High-Performance Mode</option>
+                  <option value="50">50 J/TH - S15 Energy-Saving Mode</option>
+                </select>
+              </mat-form-field>
+            </mat-expansion-panel>
 
 
-          <mat-expansion-panel>
-            <mat-expansion-panel-header>
-              <div>
-                <p class="label">Bitcoin</p>
-                <p class="has-label">
-                  {{ bitcoinIncome | number : '1.2-2' }}
-                  BTC/y</p>
-              </div>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <div>
+                  <p class="label">Bitcoin</p>
+                  <p class="has-label">
+                    {{ bitcoinIncome | number : '1.2-2' }}
+                    BTC/y</p>
+                </div>
 
-            </mat-expansion-panel-header>
+              </mat-expansion-panel-header>
 
-            <p><i>Formula:</i> Bitcoin = Hash Rate * Hash Rate / (Total Hash Rate + Hash Rate) * 8760 * 6 * 12.5</p>
+              <p><i>Formula:</i> Bitcoin = Hash Rate * Hash Rate / (Total Hash Rate + Hash Rate) * 8760 * 6 * 12.5</p>
 
-            <p>Total Hash Rate: {{ this.totalHashRate }} THs</p>
-          </mat-expansion-panel>
-
-
+              <p>Total Hash Rate: {{ this.totalHashRate }} THs</p>
+            </mat-expansion-panel>
 
 
-          <mat-expansion-panel>
-            <mat-expansion-panel-header>
-              <div>
-                <p class="label">Revenue</p>
-                <p class="has-label">
-                  {{ euroIncome * (1/ (1 - this.phi)) | number : '1.2-2'}}
-                  €/y * t - {{hashRate * 50 | number: '1.2-2'}} €</p>
-              </div>
-
-            </mat-expansion-panel-header>
 
 
-            <p><i>Formula:</i> Revenue = Bitcoin Income * Bitcoin Price * (1 - Maintenance Costs) - Initial Costs</p>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <div>
+                  <p class="label">Revenue</p>
+                  <p class="has-label">
+                    {{ euroIncome * (1/ (1 - this.phi)) | number : '1.2-2'}}
+                    €/y * t - {{hashRate * 50 | number: '1.2-2'}} €</p>
+                </div>
 
-            <p>Maintenance Costs: {{phi * 100}}%</p>
-
-            <p>Initial Costs: Hash Rate * 50€</p>
-
-          </mat-expansion-panel>
+              </mat-expansion-panel-header>
 
 
-        </mat-card>
+              <p><i>Formula:</i> Revenue = Bitcoin Income * Bitcoin Price * (1 - Maintenance Costs) - Initial Costs</p>
+
+              <p>Maintenance Costs: {{phi * 100}}%</p>
+
+              <p>Initial Costs: Hash Rate * 50€</p>
+
+            </mat-expansion-panel>
+
+
+          </mat-card>
+        </div>
 
       </div>
 
