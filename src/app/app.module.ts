@@ -18,6 +18,8 @@ import { CalculatorComponent } from './calculator/calculator.component';
 
 import { HashratePipe } from './_util/hashratePipe';
 import { EnergyPipe } from './_util/energyPipe';
+import { ExchangeRateService } from './_services/exchange-rate.service';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -41,10 +43,12 @@ import { EnergyPipe } from './_util/energyPipe';
     MatCardModule,
     MatExpansionModule,
     MatTooltipModule,
-    ChartsModule
+    ChartsModule,
+    HttpClientModule
   ],
   providers: [
-    {provide: LOCALE_ID, useValue: "en-US"}
+    {provide: LOCALE_ID, useValue: "en-US",},
+    ExchangeRateService
   ],
   bootstrap: [AppComponent]
 })

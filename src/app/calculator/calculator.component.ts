@@ -3,6 +3,7 @@ import { ChartDataSets, ChartOptions } from 'chart.js';
 import { Color, Label } from 'ng2-charts';
 import { DecimalPipe } from '@angular/common';
 import { MatExpansionPanel } from '@angular/material';
+import { ExchangeRateService } from '../_services/exchange-rate.service';
 // import * as pluginAnnotations from 'chartjs-plugin-annotation';
 
 @Component({
@@ -97,10 +98,14 @@ export class CalculatorComponent implements OnInit {
 
   @ViewChild(MatExpansionPanel) panel: MatExpansionPanel;
 
-  constructor(@Inject(LOCALE_ID) public locale: string, private ref: ApplicationRef) { }
+  constructor(@Inject(LOCALE_ID) public locale: string, private ref: ApplicationRef,
+    private exchangeRateService: ExchangeRateService) { }
 
   ngOnInit() {
+    this.exchangeRateService.btcToEur.subscribe(btcToEur => {
+      this.bitcoinPrice = btcToEur;
     this.calc();
+    });
   }
 
   energyChanged(e) {
@@ -125,7 +130,7 @@ export class CalculatorComponent implements OnInit {
       const value = i * 8760 * this.energy * this.energyPrice;
       dataWithoutBTC = dataWithoutBTC.concat(value);
     }
-    
+
     this.lineChartData[0].data = dataWithoutBTC;
 
     // generate data for with bitcoin
@@ -174,7 +179,7 @@ export class CalculatorComponent implements OnInit {
       } else {
         const delta = this.hashRate / (this.totalHashRate + this.hashRate) * 8760 * 6 * blockReward * this.bitcoinPrice * (1 / (1 - this.phi));
 
-        const value = dataWithBTC[i - 1] +  delta;
+        const value = dataWithBTC[i - 1] + delta;
 
         dataWithBTC = dataWithBTC.concat(value);
       }
