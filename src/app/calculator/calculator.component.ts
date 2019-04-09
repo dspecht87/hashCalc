@@ -104,7 +104,10 @@ export class CalculatorComponent implements OnInit {
   ngOnInit() {
     this.exchangeRateService.btcToEur.subscribe(btcToEur => {
       this.bitcoinPrice = btcToEur;
-    this.calc();
+      this.exchangeRateService.totalHashRate.subscribe(totalHashRate => {
+        this.totalHashRate = (+ totalHashRate) / 1000;
+        this.calc();
+      }) 
     });
   }
 
