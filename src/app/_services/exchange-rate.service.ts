@@ -11,6 +11,9 @@ export class ExchangeRateService {
   private bchToBtc$: Observable<number>;
   private bchToBtcTimestamp = new Date(0);
 
+
+  private totalHashRate$: Observable<number>;
+
   private API_KEY = 'FG0GOIHRJX3Z9TPZ';
 
   constructor(private http: HttpClient) { }
@@ -23,12 +26,25 @@ export class ExchangeRateService {
     return this.bchToBtc$;
   }
 
+  get totalHashRate(): Observable<number> {
+    if(!this.totalHashRate$) {
+      this.requestTotalHashRate();
+    }
+    return this.totalHashRate$;
+  }
+
   private requestBtcToEur() {
     // set new timestamp
     this.bchToBtcTimestamp = new Date();
     // request bchToBtc
     this.bchToBtc$ = this.http.get<any>('https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=BTC&to_currency=EUR&apikey=' + this.API_KEY).pipe(
       map(x => + x['Realtime Currency Exchange Rate']['5. Exchange Rate']),
+      shareReplay(1)
+    );
+  }
+
+  private requestTotalHashRate() {
+    this.totalHashRate$ = this.http.get<number>("https://blockchain.info/q/hashrate").pipe(
       shareReplay(1)
     );
   }

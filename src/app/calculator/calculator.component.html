@@ -96,11 +96,11 @@
                     BTC</p>
                 </div>
 
-              </mat-expansion-panel-header>
+            </mat-expansion-panel-header>
               <p class="label">Formula</p>
               <p>Bitcoin = Hash Rate * Hash Rate / (Total Hash Rate + Hash Rate) * 8760 * 6 * 12.5</p>
               <p class="label">Total Hash Rate</p>
-              <p>{{ this.totalHashRate }} THs</p>
+              <p>{{ this.totalHashRate | number:  '1.2-2' }} THs</p>
             </mat-expansion-panel>
 
 
