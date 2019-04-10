@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import {MatSelectModule} from '@angular/material/select';
 
 import { ChartsModule } from 'ng2-charts';
 
@@ -43,6 +44,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatCardModule,
     MatExpansionModule,
     MatTooltipModule,
+    MatSelectModule,
     ChartsModule,
     HttpClientModule
   ],
