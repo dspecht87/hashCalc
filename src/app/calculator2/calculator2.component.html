@@ -1,3 +1,22 @@
-<p>
-  calculator2 works!
-</p>
+<mat-card>
+  <mat-form-field>
+    <input matInput (change)="valuesChanged($event)" [(ngModel)]="energy" placeholder="Energy in kWh">
+  </mat-form-field>
+  <div>
+      <p class="label">Powerefficiency</p>
+      <p class="has-label">{{ powerEfficiency | number:  '1.2-2' }} J/TH</p>
+    </div>
+  <div>
+    <p class="label">Terahash</p>
+    <p class="has-label">{{ hash | number:  '1.2-2' }} TH</p>
+  </div>
+  <div>
+      <p class="label">Bitcoin</p>
+      <p class="has-label">{{ bitcoin | number:  '1.2-2' }} BTC</p>
+    </div>
+    <div>
+        <p class="label">Euro</p>
+        <p class="has-label">{{ euro | number:  '1.2-2' }} €</p>
+      </div>
+
+</mat-card>

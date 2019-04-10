@@ -3,4 +3,30 @@
 
 body {
     background-color: #232323;
+    color: #ffffff
 }
+
+a.active {
+    color: inherit;
+    text-decoration: underline;
+}
+
+a {
+    text-decoration: none;
+    color: #dddddd;
+}
+
+mat-card {
+    background-color: #232323;
+  } 
+
+  .label {
+    color: grey;
+    font-size: 12px;
+  }
+  
+  .has-label {
+    color: white;
+    margin-top: 2px;
+    font-size: 14px;
+  }

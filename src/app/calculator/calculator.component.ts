@@ -119,7 +119,6 @@ export class CalculatorComponent implements OnInit {
 
   energyChanged(e) {
 
-    console.log(e);
     this.calc();
   }
 
@@ -127,7 +126,6 @@ export class CalculatorComponent implements OnInit {
 
     // next block reward halving: 24 May 2020 01:19:43
     let halvingDate = new Date(1590275983000);
-    console.log(halvingDate);
 
     // time in years
     const time = 5;

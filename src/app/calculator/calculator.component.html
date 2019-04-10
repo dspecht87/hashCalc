@@ -99,7 +99,7 @@
 
             </mat-expansion-panel-header>
               <p class="label">Formula</p>
-              <p>Bitcoin = Hash Rate * Hash Rate / (Total Hash Rate + Hash Rate) * 8760 * 6 * 12.5</p>
+              <p>Bitcoin = Hash Rate * Hash Rate / (Total Hash Rate + Hash Rate) * 8760 * 6 * Block Reward</p>
               <p class="label">Total Hash Rate</p>
               <p>{{ this.totalHashRate | number:  '1.2-2' }} THs</p>
             </mat-expansion-panel>
@@ -121,7 +121,7 @@
               <p class="label">Maintenance Costs</p>
               <p>{{phi * 100}}%</p>
               <p class="label">Initial Costs</p>
-              <p>Hash Rate * {{(this.selectedMiner.price /  this.selectedMiner.hashRate)}}</p>
+              <p>Hash Rate * {{(this.selectedMiner.price /  this.selectedMiner.hashRate) | number: '1.2-2'}}</p>
 
 
             </mat-expansion-panel>

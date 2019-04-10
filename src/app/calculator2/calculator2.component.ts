@@ -7,9 +7,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Calculator2Component implements OnInit {
 
+  // energy in kWh
+  public energy = 100;
+
+  // power efficiency in J/TH
+  public powerEfficiency = 59;
+  // hash in terahash
+  public hash: number;
+
+  public bitcoin;
+  public euro;
+
   constructor() { }
 
   ngOnInit() {
+    this.clac();
+  }
+
+  valuesChanged(e) {
+    this.clac();
+  }
+
+  clac() {
+    this.hash = this.energy * this.powerEfficiency *60 * 60;
   }
 
 }

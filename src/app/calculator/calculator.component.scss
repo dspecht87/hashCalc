@@ -7,10 +7,6 @@ chart-container {
     width: 1000px;
 }
 
-mat-card {
-  text-align: left;
-}
-
 mat-card-title {
   font-weight: bold;
   margin-bottom: 12px;
@@ -18,6 +14,7 @@ mat-card-title {
 
 mat-card {
   background-color: #232323;
+  text-align: left;
 }
 
 mat-expansion-panel {
@@ -27,17 +24,6 @@ mat-expansion-panel {
 
 mat-expansion-panel-header {
   padding: 0.75em;
-}
-
-.label {
-  color: grey;
-  font-size: 12px;
-}
-
-.has-label {
-  color: white;
-  margin-top: 2px;
-  font-size: 14px;
 }
 
 .red-border {
