@@ -1,5 +1,6 @@
 mat-slider {
   width: 100%;
+  color: white;
 }
 
 chart-container {
@@ -12,6 +13,19 @@ mat-card {
 
 mat-card-title {
   font-weight: bold;
+  margin-bottom: 12px;
+}
+
+mat-card {
+  background-color: #232323;
+}
+
+mat-expansion-panel {
+  background-color: #333333;
+}
+
+mat-expansion-panel-header {
+  padding: 0.75em;
 }
 
 .label {
@@ -21,18 +35,19 @@ mat-card-title {
 
 .has-label {
   margin-top: 2px;
+  font-size: 14px;
 }
 
 .red-border {
   border-color: red;
   border-width: 2px;
-  border-style: solid
+  border-style: solid;
 }
 
 .grey-border {
   border-color: rgba(77,83,96,1);
   border-width: 2px;
-  border-style: solid
+  border-style: solid;
 }
 
 .neutal-border {

@@ -7,13 +7,13 @@
 
       <div fxLayout='row'>
         <div fxLayout='column' fxFlex="1 1 0">
-          <mat-card class="neutal-border">
+          <mat-card>
             <p class="label">Energy</p>
             <p class="has-label">{{ energy | energyPipe }}</p>
 
             <mat-slider (change)="energyChanged($event)" min="100" max="200000" step="50" [(ngModel)]="energy">
             </mat-slider>
-            <p class="small">The energy that is available.</p>
+            <p class="small"><small></small>The energy that is available.</p>
           </mat-card>
         </div>
       </div>
@@ -22,7 +22,7 @@
       <div fxLayout="row wrap" fxLayoutGap="32px">
 
         <div fxFlex="1 1 calc(50% - 32px)">
-          <mat-card class="grey-border">
+          <mat-card>
             <mat-card-header>
               <mat-card-title>Without Bitcoin</mat-card-title>
             </mat-card-header>
@@ -43,8 +43,8 @@
                 </div>
 
               </mat-expansion-panel-header>
-
-              <p><i>Formula:</i> Revenue =
+              <p class="label">Formula</p>
+              <p>Revenue =
                 <span matTooltip="{{this.energy | energyPipe}}">Energy</span>
                 *
                 <span matTooltip="{{this.energyPrice | energyPipe}}">Energy Price * Time</span>
@@ -55,7 +55,7 @@
         </div>
 
         <div fxFlex="1 1 calc(50% - 32px)">
-          <mat-card class="red-border">
+          <mat-card>
             <mat-card-header>
               <mat-card-title>With Bitcoin</mat-card-title>
             </mat-card-header>
@@ -74,8 +74,8 @@
                 </div>
 
               </mat-expansion-panel-header>
-
-              <p>Formula: Hash Rate = Energy * (1 / Power Efficiency) </p>
+              <p class="label">Formula</p>
+              <p>Hash Rate = Energy * (1 / Power Efficiency) </p>
 
               <mat-form-field>
                 <mat-label>Power Efficiency(PE)</mat-label>
@@ -90,17 +90,17 @@
             <mat-expansion-panel>
               <mat-expansion-panel-header>
                 <div>
-                  <p class="label">Bitcoin</p>
+                  <p class="label">Bitcoin per Year</p>
                   <p class="has-label">
                     {{ bitcoinIncome | number : '1.2-2' }}
-                    BTC/y</p>
+                    BTC</p>
                 </div>
 
               </mat-expansion-panel-header>
-
-              <p><i>Formula:</i> Bitcoin = Hash Rate * Hash Rate / (Total Hash Rate + Hash Rate) * 8760 * 6 * 12.5</p>
-
-              <p>Total Hash Rate: {{ this.totalHashRate }} THs</p>
+              <p class="label">Formula</p>
+              <p>Bitcoin = Hash Rate * Hash Rate / (Total Hash Rate + Hash Rate) * 8760 * 6 * 12.5</p>
+              <p class="label">Total Hash Rate</p>
+              <p>{{ this.totalHashRate }} THs</p>
             </mat-expansion-panel>
 
 
@@ -117,12 +117,13 @@
 
               </mat-expansion-panel-header>
 
-
-              <p><i>Formula:</i> Revenue = Bitcoin Income * Bitcoin Price * (1 - Maintenance Costs) - Initial Costs</p>
-
-              <p>Maintenance Costs: {{phi * 100}}%</p>
-
-              <p>Initial Costs: Hash Rate * 50€</p>
+              <p class="label">Formula</p>
+              <p>Revenue = Bitcoin Income * Bitcoin Price * (1 - Maintenance Costs) - Initial Costs</p>
+            
+              <p class="label">Maintenance Costs</p>
+              <p>{{phi * 100}}%</p>
+              <p class="label">Initial Costs</p>
+              <p>Hash Rate * 50€</p>
 
             </mat-expansion-panel>
 
@@ -133,13 +134,12 @@
       </div>
 
       <div fxLayout='row'>
-
         <div fxLayout='column'>
-          <mat-card class="neutal-border">
+          <mat-card>
             <div class="flex">
               <div class="flex-item">
                 <div style="display: block;">
-                  <canvas baseChart width="400" height="400" [datasets]="lineChartData" [labels]="lineChartLabels"
+                  <canvas baseChart width="1200" height="400" [datasets]="lineChartData" [labels]="lineChartLabels"
                     [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend"
                     [chartType]="lineChartType">
                   </canvas>
