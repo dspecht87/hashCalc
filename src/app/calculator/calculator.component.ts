@@ -4,6 +4,7 @@ import { Color, Label } from 'ng2-charts';
 import { DecimalPipe } from '@angular/common';
 import { MatExpansionPanel } from '@angular/material';
 import { ExchangeRateService } from '../_services/exchange-rate.service';
+import { MINERS, Miner } from '../_model/miner';
 // import * as pluginAnnotations from 'chartjs-plugin-annotation';
 
 @Component({
@@ -12,6 +13,11 @@ import { ExchangeRateService } from '../_services/exchange-rate.service';
   styleUrls: ['./calculator.component.scss']
 })
 export class CalculatorComponent implements OnInit {
+
+
+  public MINERS = MINERS;
+
+  selectedMiner: Miner = MINERS[0];
 
   //debug switch
   public debug = true;
@@ -28,7 +34,7 @@ export class CalculatorComponent implements OnInit {
   // public hashratePerEnergy =  1 / 53 * 1000;
 
   // power efficiency in J/TH
-  public powerEfficiency = 57;
+  // public powerEfficiency = 57;
 
   public hashRate: number;
   public totalHashRate = 44000000;
@@ -112,6 +118,7 @@ export class CalculatorComponent implements OnInit {
   }
 
   energyChanged(e) {
+
     console.log(e);
     this.calc();
   }
@@ -138,7 +145,7 @@ export class CalculatorComponent implements OnInit {
 
     // generate data for with bitcoin
 
-    this.hashRate = this.energy * (1 / this.powerEfficiency * 1000);
+    this.hashRate = this.energy * (1 / this.selectedMiner.powerEfficiency * 1000);
 
     let blockReward = 12.5;
 
@@ -149,7 +156,7 @@ export class CalculatorComponent implements OnInit {
 
     let timeCursor = new Date();
 
-    const initialCost = this.hashRate * 50;
+    const initialCost = this.hashRate * (this.selectedMiner.price /  this.selectedMiner.hashRate);
     dataWithBTC[0] = -initialCost;
 
     for (let i = 1; i < time; i++) {

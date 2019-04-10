@@ -79,10 +79,11 @@
 
               <mat-form-field>
                 <mat-label>Power Efficiency(PE)</mat-label>
-                <select matNativeControl (change)="energyChanged($event)" [(ngModel)]="powerEfficiency">
-                  <option value="57">57 J/TH - S15 High-Performance Mode</option>
-                  <option value="50">50 J/TH - S15 Energy-Saving Mode</option>
-                </select>
+                <mat-select (selectionChange)="energyChanged($event)" [(ngModel)]="selectedMiner">
+
+                  <mat-option [value]="miner" *ngFor="let miner of MINERS">{{miner.name}}</mat-option>
+
+                </mat-select>
               </mat-form-field>
             </mat-expansion-panel>
 
@@ -103,9 +104,6 @@
               <p>{{ this.totalHashRate | number:  '1.2-2' }} THs</p>
             </mat-expansion-panel>
 
-
-
-
             <mat-expansion-panel>
               <mat-expansion-panel-header>
                 <div>
@@ -123,10 +121,10 @@
               <p class="label">Maintenance Costs</p>
               <p>{{phi * 100}}%</p>
               <p class="label">Initial Costs</p>
-              <p>Hash Rate * 50€</p>
+              <p>Hash Rate * {{(this.selectedMiner.price /  this.selectedMiner.hashRate)}}</p>
+
 
             </mat-expansion-panel>
-
 
           </mat-card>
         </div>

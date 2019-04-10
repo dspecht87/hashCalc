@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import {MatSelectModule} from '@angular/material/select';
 
 import { ChartsModule } from 'ng2-charts';
 
@@ -20,6 +21,7 @@ import { HashratePipe } from './_util/hashratePipe';
 import { EnergyPipe } from './_util/energyPipe';
 import { ExchangeRateService } from './_services/exchange-rate.service';
 import { HttpClientModule } from '@angular/common/http';
+import { Calculator2Component } from './calculator2/calculator2.component';
 
 
 
@@ -28,7 +30,8 @@ import { HttpClientModule } from '@angular/common/http';
     AppComponent,
     CalculatorComponent,
     HashratePipe,
-    EnergyPipe
+    EnergyPipe,
+    Calculator2Component
   ],
   imports: [
     BrowserModule,
@@ -43,6 +46,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatCardModule,
     MatExpansionModule,
     MatTooltipModule,
+    MatSelectModule,
     ChartsModule,
     HttpClientModule
   ],
