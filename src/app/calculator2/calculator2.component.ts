@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ExchangeRateService } from '../_services/exchange-rate.service';
 
 @Component({
   selector: 'app-calculator2',
@@ -8,20 +9,39 @@ import { Component, OnInit } from '@angular/core';
 export class Calculator2Component implements OnInit {
 
   // energy in kWh
-  public energy = 100;
+  public energy = 1;
 
   // power efficiency in J/TH
   public powerEfficiency = 59;
   // hash in terahash
   public hash: number;
 
+
+  // total hashpower
+  public totalHashPower = 42585056;
+  public blockReward = 12.5;
+  
+  public btcToEur = 4200;
+
   public bitcoin;
   public euro;
 
-  constructor() { }
+  constructor(private _exchangeRateService: ExchangeRateService) { }
 
   ngOnInit() {
     this.clac();
+
+    this._exchangeRateService.totalHashRate.subscribe(totalHashPower => {
+      this.totalHashPower = totalHashPower / 1000;
+      this.clac();
+    });
+
+    this._exchangeRateService.btcToEur.subscribe(btcToEur => {
+      this.btcToEur = btcToEur;
+      this.clac();
+    });
+
+    
   }
 
   valuesChanged(e) {
@@ -29,7 +49,14 @@ export class Calculator2Component implements OnInit {
   }
 
   clac() {
-    this.hash = this.energy * this.powerEfficiency *60 * 60;
+    this.hash = this.energy * 1000 * 60 * 60 / this.powerEfficiency;
+
+    // TH/BTC
+    // (total hash * Th / s) / (25 * BTC / (600 * s) )
+    this.bitcoin = this.hash / ( this.totalHashPower / (this.blockReward / 600));
+
+    this.euro = this.bitcoin * this.btcToEur;
+    
   }
 
 }
