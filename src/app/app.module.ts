@@ -21,6 +21,7 @@ import { HashratePipe } from './_util/hashratePipe';
 import { EnergyPipe } from './_util/energyPipe';
 import { ExchangeRateService } from './_services/exchange-rate.service';
 import { HttpClientModule } from '@angular/common/http';
+import { Calculator2Component } from './calculator2/calculator2.component';
 
 
 
@@ -29,7 +30,8 @@ import { HttpClientModule } from '@angular/common/http';
     AppComponent,
     CalculatorComponent,
     HashratePipe,
-    EnergyPipe
+    EnergyPipe,
+    Calculator2Component
   ],
   imports: [
     BrowserModule,
