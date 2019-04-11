@@ -9,7 +9,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import {MatSelectModule} from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { ChartsModule } from 'ng2-charts';
 
@@ -47,10 +49,12 @@ import { Calculator2Component } from './calculator2/calculator2.component';
     MatTooltipModule,
     MatSelectModule,
     ChartsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatToolbarModule,
+    MatTabsModule
   ],
   providers: [
-    {provide: LOCALE_ID, useValue: "en-US",},
+    { provide: LOCALE_ID, useValue: "en-US", },
     ExchangeRateService
   ],
   bootstrap: [AppComponent]

@@ -157,12 +157,17 @@ export class CalculatorComponent implements OnInit {
     const initialCost = this.hashRate * (this.selectedMiner.price /  this.selectedMiner.hashRate);
     dataWithBTC[0] = -initialCost;
 
+
+    let totalHashRateDyn = this.totalHashRate;
+
     for (let i = 1; i < time; i++) {
 
 
       //increment time cursor + 1 year
       let oldTime = new Date(timeCursor.getTime());
       timeCursor.setFullYear(timeCursor.getFullYear() + 1);
+
+      totalHashRateDyn = totalHashRateDyn * 1.20;
 
 
       let accReward = 0;
@@ -171,12 +176,12 @@ export class CalculatorComponent implements OnInit {
         // get fraction of year
         let fractionOfYear = (halvingDate.getTime() - oldTime.getTime()) / (timeCursor.getTime() - oldTime.getTime())
 
-        accReward = fractionOfYear * this.hashRate / (this.totalHashRate + this.hashRate) * 8760 * 6 * blockReward * this.bitcoinPrice * (1 / (1 - this.phi));
+        accReward = fractionOfYear * this.hashRate / (totalHashRateDyn + this.hashRate) * 8760 * 6 * blockReward * this.bitcoinPrice * (1 / (1 - this.phi));
 
         blockReward = blockReward / 2;
 
         // get blocks with new reward
-        accReward += (1 - fractionOfYear) * this.hashRate / (this.totalHashRate + this.hashRate) * 8760 * 6 * blockReward * this.bitcoinPrice * (1 / (1 - this.phi));
+        accReward += (1 - fractionOfYear) * this.hashRate / (totalHashRateDyn + this.hashRate) * 8760 * 6 * blockReward * this.bitcoinPrice * (1 / (1 - this.phi));
 
         let value = dataWithBTC[i - 1] + accReward;
 
@@ -185,7 +190,7 @@ export class CalculatorComponent implements OnInit {
         dataWithBTC = dataWithBTC.concat(value);
 
       } else {
-        const delta = this.hashRate / (this.totalHashRate + this.hashRate) * 8760 * 6 * blockReward * this.bitcoinPrice * (1 / (1 - this.phi));
+        const delta = this.hashRate / (totalHashRateDyn + this.hashRate) * 8760 * 6 * blockReward * this.bitcoinPrice * (1 / (1 - this.phi));
 
         const value = dataWithBTC[i - 1] + delta;
 

@@ -1,152 +1,149 @@
-<div fxLayout="row">
+<div>
 
-  <div fxFlex="1 1 0"></div>
-  <div fxFlex="0 0 1200px">
+  <div fxLayout="column" fxLayoutGap="32px" fxLayoutAlign="center">
 
-    <div fxLayout="column" fxLayoutGap="32px" fxLayoutAlign="center">
+    <div fxLayout='row'>
+      <div fxLayout='column' fxFlex="1 1 0">
+        <mat-card>
+          <p class="label">Energy</p>
+          <p class="has-label">{{ energy | energyPipe }}</p>
 
-      <div fxLayout='row'>
-        <div fxLayout='column' fxFlex="1 1 0">
-          <mat-card>
-            <p class="label">Energy</p>
-            <p class="has-label">{{ energy | energyPipe }}</p>
-
-            <mat-slider (change)="energyChanged($event)" min="100" max="200000" step="50" [(ngModel)]="energy">
-            </mat-slider>
-            <p class="small"><small></small>The energy that is available.</p>
-          </mat-card>
-        </div>
+          <mat-slider (change)="energyChanged($event)" min="100" max="200000" step="50" [(ngModel)]="energy">
+          </mat-slider>
+          <p class="small"><small></small>The energy that is available.</p>
+        </mat-card>
       </div>
+    </div>
 
 
-      <div fxLayout="row wrap" fxLayoutGap="32px">
+    <div fxLayout="row wrap" fxLayoutGap="32px">
 
-        <div fxFlex="1 1 calc(50% - 32px)">
-          <mat-card>
-            <mat-card-header>
-              <mat-card-title>Without Bitcoin</mat-card-title>
-            </mat-card-header>
-            <mat-form-field>
-              <input matInput (change)="energyChanged($event)" [(ngModel)]="energyPrice"
-                placeholder="Energy Price in Euro [€/kWh]">
-            </mat-form-field>
-
-
-
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <div>
-                  <p class="label">Revenue</p>
-                  <p class="has-label">
-                    {{ 8760 * this.energy * this.energyPrice | number : '1.2-2' }} €/y * time
-                  </p>
-                </div>
-
-              </mat-expansion-panel-header>
-              <p class="label">Formula</p>
-              <p>Revenue =
-                <span matTooltip="{{this.energy | energyPipe}}">Energy</span>
-                *
-                <span matTooltip="{{this.energyPrice | energyPipe}}">Energy Price * Time</span>
-              </p>
-            </mat-expansion-panel>
-
-          </mat-card>
-        </div>
-
-        <div fxFlex="1 1 calc(50% - 32px)">
-          <mat-card>
-            <mat-card-header>
-              <mat-card-title>With Bitcoin</mat-card-title>
-            </mat-card-header>
-
-            <mat-form-field>
-              <input matInput (change)="energyChanged($event)" [(ngModel)]="bitcoinPrice"
-                placeholder="Bitcoin Prices in Euro [€/BTC]">
-            </mat-form-field>
-
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-
-                <div>
-                  <p class="label">Hash Rate</p>
-                  <p class="has-label"> {{ hashRate | number : '1.2-2'}} TH/s</p>
-                </div>
-
-              </mat-expansion-panel-header>
-              <p class="label">Formula</p>
-              <p>Hash Rate = Energy * (1 / Power Efficiency) </p>
-
-              <mat-form-field>
-                <mat-label>Power Efficiency(PE)</mat-label>
-                <mat-select (selectionChange)="energyChanged($event)" [(ngModel)]="selectedMiner">
-
-                  <mat-option [value]="miner" *ngFor="let miner of MINERS">{{miner.name}}</mat-option>
-
-                </mat-select>
-              </mat-form-field>
-            </mat-expansion-panel>
+      <div fxFlex="1 1 calc(50% - 32px)">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Without Bitcoin</mat-card-title>
+          </mat-card-header>
+          <mat-form-field>
+            <input matInput (change)="energyChanged($event)" [(ngModel)]="energyPrice"
+              placeholder="Energy Price in Euro [€/kWh]">
+          </mat-form-field>
 
 
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <div>
-                  <p class="label">Bitcoin per Year</p>
-                  <p class="has-label">
-                    {{ bitcoinIncome | number : '1.2-2' }}
-                    BTC</p>
-                </div>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <div>
+                <p class="label">Revenue</p>
+                <p class="has-label">
+                  {{ 8760 * this.energy * this.energyPrice | number : '1.2-2' }} €/y * time
+                </p>
+              </div>
 
             </mat-expansion-panel-header>
-              <p class="label">Formula</p>
-              <p>Bitcoin = Hash Rate * Hash Rate / (Total Hash Rate + Hash Rate) * 8760 * 6 * Block Reward</p>
-              <p class="label">Total Hash Rate</p>
-              <p>{{ this.totalHashRate | number:  '1.2-2' }} THs</p>
-            </mat-expansion-panel>
+            <p class="label">Formula</p>
+            <p>Revenue =
+              <span matTooltip="{{this.energy | energyPipe}}">Energy</span>
+              *
+              <span matTooltip="{{this.energyPrice | energyPipe}}">Energy Price * Time</span>
+            </p>
+          </mat-expansion-panel>
 
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <div>
-                  <p class="label">Revenue</p>
-                  <p class="has-label">
-                    {{ euroIncome * (1/ (1 - this.phi)) | number : '1.2-2'}}
-                    €/y * t - {{hashRate * 50 | number: '1.2-2'}} €</p>
-                </div>
-
-              </mat-expansion-panel-header>
-
-              <p class="label">Formula</p>
-              <p>Revenue = Bitcoin Income * Bitcoin Price * (1 - Maintenance Costs) - Initial Costs</p>
-            
-              <p class="label">Maintenance Costs</p>
-              <p>{{phi * 100}}%</p>
-              <p class="label">Initial Costs</p>
-              <p>Hash Rate * {{(this.selectedMiner.price /  this.selectedMiner.hashRate) | number: '1.2-2'}}</p>
-
-
-            </mat-expansion-panel>
-
-          </mat-card>
-        </div>
-
+        </mat-card>
       </div>
 
-      <div fxLayout='row'>
-        <div fxLayout='column'>
-          <mat-card>
-            <div class="flex">
-              <div class="flex-item">
-                <div style="display: block;">
-                  <canvas baseChart width="1200" height="400" [datasets]="lineChartData" [labels]="lineChartLabels"
-                    [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend"
-                    [chartType]="lineChartType">
-                  </canvas>
-                </div>
+      <div fxFlex="1 1 calc(50% - 32px)">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>With Bitcoin</mat-card-title>
+          </mat-card-header>
+
+          <mat-form-field>
+            <input matInput (change)="energyChanged($event)" [(ngModel)]="bitcoinPrice"
+              placeholder="Bitcoin Prices in Euro [€/BTC]">
+          </mat-form-field>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+
+              <div>
+                <p class="label">Hash Rate</p>
+                <p class="has-label"> {{ hashRate | number : '1.2-2'}} TH/s</p>
+              </div>
+
+            </mat-expansion-panel-header>
+            <p class="label">Formula</p>
+            <p>Hash Rate = Energy * (1 / Power Efficiency) </p>
+
+            <mat-form-field>
+              <mat-label>Power Efficiency(PE)</mat-label>
+              <mat-select (selectionChange)="energyChanged($event)" [(ngModel)]="selectedMiner">
+
+                <mat-option [value]="miner" *ngFor="let miner of MINERS">{{miner.name}}</mat-option>
+
+              </mat-select>
+            </mat-form-field>
+          </mat-expansion-panel>
+
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <div>
+                <p class="label">Bitcoin per Year</p>
+                <p class="has-label">
+                  {{ bitcoinIncome | number : '1.2-2' }}
+                  BTC</p>
+              </div>
+
+            </mat-expansion-panel-header>
+            <p class="label">Formula</p>
+            <p>Bitcoin = Hash Rate * Hash Rate / (Total Hash Rate + Hash Rate) * 8760 * 6 * Block Reward</p>
+            <p class="label">Total Hash Rate</p>
+            <p>{{ this.totalHashRate | number:  '1.2-2' }} THs</p>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <div>
+                <p class="label">Revenue</p>
+                <p class="has-label">
+                  {{ euroIncome * (1/ (1 - this.phi)) | number : '1.2-2'}}
+                  €/y * t - {{hashRate * 50 | number: '1.2-2'}} €</p>
+              </div>
+
+            </mat-expansion-panel-header>
+
+            <p class="label">Formula</p>
+            <p>Revenue = Bitcoin Income * Bitcoin Price * (1 - Maintenance Costs) - Initial Costs</p>
+
+            <p class="label">Maintenance Costs</p>
+            <p>{{phi * 100}}%</p>
+            <p class="label">Initial Costs</p>
+            <p>Hash Rate * {{(this.selectedMiner.price /  this.selectedMiner.hashRate) | number: '1.2-2'}}</p>
+
+
+          </mat-expansion-panel>
+
+        </mat-card>
+      </div>
+
+    </div>
+
+    <div fxLayout='row'>
+      <div fxLayout='column'>
+        <mat-card>
+          <div class="flex">
+            <div class="flex-item">
+              <div style="display: block;">
+                <canvas baseChart width="1150" height="400" [datasets]="lineChartData" [labels]="lineChartLabels"
+                  [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend"
+                  [chartType]="lineChartType">
+                </canvas>
               </div>
             </div>
-          </mat-card>
-        </div>
-        <!--
+          </div>
+        </mat-card>
+      </div>
+      <!--
             <div fxLayout='column'>
                 <div class="flex">
                   <div class="flex-item">
@@ -173,9 +170,7 @@
                   </div>
                 </div>
                 -->
-      </div>
-
     </div>
+
   </div>
-  <div fxFlex="1 1 0"></div>
 </div>

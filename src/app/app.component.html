@@ -1,8 +1,31 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Mining revenue calculator
-  </h1>
-  <p><a routerLink="/time-period" routerLinkActive="active">Time Period</a> | <a routerLink="/moment" routerLinkActive="active">Moment in Time</a></p>
- 
-<router-outlet></router-outlet>
+
+<div fxLayout="row">
+
+  <div fxFlex="1 1 0"></div>
+
+
+  <div fxFlex="0 1 1200px">
+
+    <div style="text-align:center">
+      <mat-toolbar>
+        <span>Mining revenue calculator</span>
+      </mat-toolbar>
+
+      <nav mat-tab-nav-bar>
+        <a mat-tab-link *ngFor="let link of navLinks" 
+        [routerLink]="link.link" 
+        routerLinkActive #rla="routerLinkActive"
+          [active]="rla.isActive">
+          {{link.label}}
+        </a>
+      </nav>
+
+      <router-outlet></router-outlet>
+
+    </div>
+  </div>
+
+  <div fxFlex="1 1 0"></div>
+
+</div>
