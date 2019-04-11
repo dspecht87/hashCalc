@@ -24,7 +24,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { Calculator2Component } from './calculator2/calculator2.component';
 
 
-
 @NgModule({
   declarations: [
     AppComponent,

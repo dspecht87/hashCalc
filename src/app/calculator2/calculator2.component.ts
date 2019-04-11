@@ -1,5 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { ExchangeRateService } from '../_services/exchange-rate.service';
+
+@Pipe({name: 'commaSeparatedNumber'})
+export class CommaSeparatedNumberPipe implements PipeTransform {
+  transform(value:number, args:string[]) : any {
+    return 'fu'
+  }
+}
 
 @Component({
   selector: 'app-calculator2',
