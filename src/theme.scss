@@ -4,7 +4,7 @@
 // ...
 
 $my-app-primary: mat-palette($mat-blue-grey);
-$my-app-accent:  mat-palette($mat-lime, 400, 500, A100);
+$my-app-accent:  mat-palette($mat-lime, 400, 500, A700);
 $my-app-warn:    mat-palette($mat-cyan);
 
 $my-app-theme: mat-dark-theme($my-app-primary, $my-app-accent, $my-app-warn);

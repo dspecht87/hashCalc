@@ -1,8 +1,11 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
-  <h1>
-    Mining revenue calculator
-  </h1>
+  <mat-toolbar>
+    <span>Mining revenue calculator</span>
+  </mat-toolbar>
   <p><a routerLink="/time-span" routerLinkActive="active">Time Span</a> | <a routerLink="/moment" routerLinkActive="active">Moment in Time</a></p>
- 
+  <mat-tab-group>
+    <mat-tab label="First" a routerLink="/time-span" routerLinkActive="active">Time Span</a></mat-tab>
+    <mat-tab label="Second" a routerLink="/moment" routerLinkActive="active">Moment in Time</a> </mat-tab>
+  </mat-tab-group>
 <router-outlet></router-outlet>
