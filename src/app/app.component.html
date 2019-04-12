@@ -1,11 +1,31 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <mat-toolbar>
-    <span>Mining revenue calculator</span>
-  </mat-toolbar>
-  <p><a routerLink="/time-span" routerLinkActive="active">Time Span</a> | <a routerLink="/moment" routerLinkActive="active">Moment in Time</a></p>
-  <mat-tab-group>
-    <mat-tab label="First" a routerLink="/time-span" routerLinkActive="active">Time Span</a></mat-tab>
-    <mat-tab label="Second" a routerLink="/moment" routerLinkActive="active">Moment in Time</a> </mat-tab>
-  </mat-tab-group>
-<router-outlet></router-outlet>
+
+<div fxLayout="row">
+
+  <div fxFlex="1 1 0"></div>
+
+
+  <div fxFlex="0 1 1200px">
+
+    <div style="text-align:center">
+      <mat-toolbar>
+        <span>Mining revenue calculator</span>
+      </mat-toolbar>
+
+      <nav mat-tab-nav-bar>
+        <a mat-tab-link *ngFor="let link of navLinks" 
+        [routerLink]="link.link" 
+        routerLinkActive #rla="routerLinkActive"
+          [active]="rla.isActive">
+          {{link.label}}
+        </a>
+      </nav>
+
+      <router-outlet></router-outlet>
+
+    </div>
+  </div>
+
+  <div fxFlex="1 1 0"></div>
+
+</div>

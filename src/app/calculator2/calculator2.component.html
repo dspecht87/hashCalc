@@ -1,63 +1,69 @@
-<div fxLayout="row">
+<div>
+  <div fxLayout='column' fxFlex="1 1 0">
+    <mat-card sc>
 
-  <div fxFlex="1 1 0"></div>
-
-  <mat-card fxFlex="0 1 1200px">
-
-    <div fxLayout="row" fxLayoutGap="15px">
-      <div>
-        <mat-form-field>
-          <input matInput (change)="valuesChanged($event)" [(ngModel)]="energy" placeholder="Energy in kWh">
-        </mat-form-field>
-      </div>
-
-      <div>
-        <mat-form-field>
-          <input matInput (change)="valuesChanged($event)" [(ngModel)]="powerEfficiency"
-            placeholder="Powerefficiency in J/TH">
-        </mat-form-field>
-      </div>
-    </div>
-
-
-    <div fxLayout="row" fxLayoutGap="15px">
-      <div fxFlex="0 0 180px">
+      <div fxLayout="row" fxLayoutGap="25px">
         <div>
-          <p class="label">Hash</p>
-          <p class="has-label">{{ hash | number:  '1.2-2' }} TH</p>
+          <mat-form-field>
+            <input matInput numbersOnly appNumberMask (change)="valuesChanged($event)" [(ngModel)]="energy"
+              placeholder="Energy in kWh">
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field>
+            <input matInput numbersOnly (change)="valuesChanged($event)" [(ngModel)]="powerEfficiency"
+              placeholder="Power Efficiency in J/TH*">
+          </mat-form-field>
         </div>
       </div>
-      <div>
-        <mat-form-field>
-          <input matInput (change)="valuesChanged($event)" [(ngModel)]="totalHashPower"
-            placeholder="Total Hash Power in TH/s">
-        </mat-form-field>
-      </div>
-    </div>
 
-    <div fxLayout="row" fxLayoutGap="15px">
-      <div>
+
+      <div fxLayout="row" fxLayoutGap="25px">
         <div fxFlex="0 0 180px">
-          <p class="label">Bitcoin</p>
-          <p class="has-label">{{ bitcoin | number:  '1.2-10' }} BTC</p>
+          <div>
+            <p class="label">Hash per {{ energy | number: '1.0-2'}} kWh</p>
+            <p class="has-label">{{ hash | number:  '1.2-2' }} TH</p>
+          </div>
+        </div>
+        <div>
+          <mat-form-field>
+            <input matInput numbersOnly (change)="valuesChanged($event)" [(ngModel)]="totalHashPower"
+              placeholder="Total Hash Power in TH/s**">
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <input matInput numbersOnly (change)="valuesChanged($event)" [(ngModel)]="blockReward"
+              placeholder="Block Reward in BTC***">
+          </mat-form-field>
         </div>
       </div>
-      <div>
-        <mat-form-field>
-          <input matInput (change)="valuesChanged($event)" [(ngModel)]="btcToEur" placeholder="Bitcoin Price in €/BTC">
-        </mat-form-field>
+
+      <div fxLayout="row" fxLayoutGap="25px">
+        <div>
+          <div fxFlex="0 0 180px">
+            <p class="label">Bitcoin per {{ energy | number: '1.0-2'}} kWh</p>
+            <p class="has-label">{{ bitcoin | number:  '1.2-10' }} BTC</p>
+          </div>
+        </div>
+        <div>
+          <mat-form-field>
+            <input matInput numbersOnly (change)="valuesChanged($event)" [(ngModel)]="btcToEur"
+              placeholder="Bitcoin Price in €/BTC">
+          </mat-form-field>
+        </div>
       </div>
-    </div>
 
-    <div>
-      <p class="label">Euro</p>
-      <p class="has-label">{{ euro | number:  '1.2-4' }} €</p>
-    </div>
+      <div>
+        <p class="label">Euro per {{ energy | number: '1.0-2'}} kWh</p>
+        <p class="has-label">{{ euro | number:  '1.2-4' }} €</p>
+      </div>
 
+      <p class="subtext">*Dependent on hardware, 59 J/TH for Antminer S15 in High-Performance Mode</p>
+      <p class="subtext">**Total Hash Power of the Bitcoin Network</p>
+      <p class="subtext">***Reward for each mined Block, currently 12.5 + transaction fees</p>
 
-
-  </mat-card>
-
-  <div fxFlex="1 1 0"></div>
-
+    </mat-card>
+  </div>
 </div>

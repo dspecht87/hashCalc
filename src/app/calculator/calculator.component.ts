@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, LOCALE_ID, Inject, ChangeDetectorRef, ApplicationRef, ViewChild } from '@angular/core';
+import { Component, OnInit, LOCALE_ID, Inject, ApplicationRef, ViewChild } from '@angular/core';
 import { ChartDataSets, ChartOptions } from 'chart.js';
 import { Color, Label } from 'ng2-charts';
 import { DecimalPipe } from '@angular/common';
@@ -19,8 +19,8 @@ export class CalculatorComponent implements OnInit {
 
   selectedMiner: Miner = MINERS[0];
 
-  //debug switch
-  public debug = true;
+  // time in years
+  public time = 4;
 
   // available energy in kw
   public energy = 9000;
@@ -113,7 +113,7 @@ export class CalculatorComponent implements OnInit {
       this.exchangeRateService.totalHashRate.subscribe(totalHashRate => {
         this.totalHashRate = (+ totalHashRate) / 1000;
         this.calc();
-      }) 
+      })
     });
   }
 
@@ -127,13 +127,10 @@ export class CalculatorComponent implements OnInit {
     // next block reward halving: 24 May 2020 01:19:43
     let halvingDate = new Date(1590275983000);
 
-    // time in years
-    const time = 5;
-
 
     // generate data for without bitcoin
     let dataWithoutBTC = [];
-    for (let i = 0; i < time; i++) {
+    for (let i = 0; i < this.time; i++) {
 
       const value = i * 8760 * this.energy * this.energyPrice;
       dataWithoutBTC = dataWithoutBTC.concat(value);
@@ -154,15 +151,20 @@ export class CalculatorComponent implements OnInit {
 
     let timeCursor = new Date();
 
-    const initialCost = this.hashRate * (this.selectedMiner.price /  this.selectedMiner.hashRate);
+    const initialCost = this.hashRate * (this.selectedMiner.price / this.selectedMiner.hashRate);
     dataWithBTC[0] = -initialCost;
 
-    for (let i = 1; i < time; i++) {
+
+    let totalHashRateDyn = this.totalHashRate;
+
+    for (let i = 1; i <= this.time; i++) {
 
 
       //increment time cursor + 1 year
       let oldTime = new Date(timeCursor.getTime());
       timeCursor.setFullYear(timeCursor.getFullYear() + 1);
+
+      totalHashRateDyn = totalHashRateDyn * 1.20;
 
 
       let accReward = 0;
@@ -171,12 +173,12 @@ export class CalculatorComponent implements OnInit {
         // get fraction of year
         let fractionOfYear = (halvingDate.getTime() - oldTime.getTime()) / (timeCursor.getTime() - oldTime.getTime())
 
-        accReward = fractionOfYear * this.hashRate / (this.totalHashRate + this.hashRate) * 8760 * 6 * blockReward * this.bitcoinPrice * (1 / (1 - this.phi));
+        accReward = fractionOfYear * this.hashRate / (totalHashRateDyn + this.hashRate) * 8760 * 6 * blockReward * this.bitcoinPrice * (1 / (1 - this.phi));
 
         blockReward = blockReward / 2;
 
         // get blocks with new reward
-        accReward += (1 - fractionOfYear) * this.hashRate / (this.totalHashRate + this.hashRate) * 8760 * 6 * blockReward * this.bitcoinPrice * (1 / (1 - this.phi));
+        accReward += (1 - fractionOfYear) * this.hashRate / (totalHashRateDyn + this.hashRate) * 8760 * 6 * blockReward * this.bitcoinPrice * (1 / (1 - this.phi));
 
         let value = dataWithBTC[i - 1] + accReward;
 
@@ -185,7 +187,7 @@ export class CalculatorComponent implements OnInit {
         dataWithBTC = dataWithBTC.concat(value);
 
       } else {
-        const delta = this.hashRate / (this.totalHashRate + this.hashRate) * 8760 * 6 * blockReward * this.bitcoinPrice * (1 / (1 - this.phi));
+        const delta = this.hashRate / (totalHashRateDyn + this.hashRate) * 8760 * 6 * blockReward * this.bitcoinPrice * (1 / (1 - this.phi));
 
         const value = dataWithBTC[i - 1] + delta;
 
@@ -197,10 +199,32 @@ export class CalculatorComponent implements OnInit {
 
     // generate labels
     let labels = [];
-    for (let i = 0; i < time; i++) {
+    for (let i = 0; i < this.time; i++) {
       labels = labels.concat(+i);
     }
     this.lineChartLabels = labels;
+  }
+
+  addYear() {
+    this.time++;
+    this.calc();
+  }
+
+  minusYear() {
+    this.time--;
+    this.calc();
+  }
+
+  formatLabel(value: number | null) {
+    if (!value) {
+      return 0;
+    }
+
+    if (value >= 1000) {
+      return Math.round(value / 1000) + 'M';
+    }
+
+    return value + 'k';
   }
 
 }

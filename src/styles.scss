@@ -3,7 +3,8 @@
 
 body {
     background-color: #232323;
-    color: #ffffff
+    color: #ffffff;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 a.active {
@@ -20,13 +21,14 @@ mat-card {
     background-color: #232323;
   } 
 
-  .label {
-    color: grey;
-    font-size: 12px;
-  }
-  
-  .has-label {
-    color: white;
-    margin-top: 2px;
-    font-size: 14px;
-  }
+.label {
+  margin: 0 0 6px 0;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+}
+
+.has-label {
+  color: white;
+  margin-top: 2px;
+  font-size: 14px;
+}

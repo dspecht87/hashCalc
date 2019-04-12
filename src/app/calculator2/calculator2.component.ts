@@ -16,7 +16,6 @@ export class Calculator2Component implements OnInit {
   // hash in terahash
   public hash: number;
 
-
   // total hashpower
   public totalHashPower = 42585056;
   public blockReward = 12.5;
