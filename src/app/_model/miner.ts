@@ -20,5 +20,11 @@ export const MINERS: Miner[] = [
         hashRate: 17,
         powerEfficiency: 53,
         price: 1035
+     },
+     { 
+        name: "Antminer S17 - Normal Mode",
+        hashRate: 56,
+        powerEfficiency: 45,
+        price: 2450
      }
 ]

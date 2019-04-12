@@ -93,6 +93,7 @@
               <div>
                 <p class="label">Bitcoin per Year</p>
                 <p class="has-label">
+                  {{ this.total  | number: '1.2-2' }}
                   {{ bitcoinIncome | number : '1.2-2' }}
                   BTC</p>
               </div>
@@ -107,10 +108,9 @@
           <mat-expansion-panel>
             <mat-expansion-panel-header>
               <div>
-                <p class="label">Revenue</p>
+                <p class="label">Revenue after {{ time }} years</p>
                 <p class="has-label">
-                  {{ euroIncome * (1/ (1 - this.phi)) | number : '1.2-2'}}
-                  €/y * t - {{hashRate * 50 | number: '1.2-2'}} €</p>
+                  {{ this.totalEuro | number: '1.2-2' }} €</p>
               </div>
 
             </mat-expansion-panel-header>
