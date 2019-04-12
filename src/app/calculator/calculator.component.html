@@ -5,10 +5,13 @@
     <div fxLayout='row'>
       <div fxLayout='column' fxFlex="1 1 0">
         <mat-card>
-          <p class="label">Energy</p>
-          <p class="has-label">{{ energy | energyPipe }}</p>
 
-          <mat-slider (change)="energyChanged($event)" min="100" max="200000" step="50" [(ngModel)]="energy">
+          <mat-form-field>
+            <input matInput numbersOnly (change)="energyChanged($event)" [(ngModel)]="energy"
+              placeholder="Energy in kW">
+          </mat-form-field>
+
+          <mat-slider thumbLabel [displayWith]="formatLabel" (change)="energyChanged($event)" min="100" max="200000" step="50" [(ngModel)]="energy">
           </mat-slider>
           <p class="small"><small></small>The energy that is available.</p>
         </mat-card>
@@ -24,7 +27,7 @@
             <mat-card-title>Without Bitcoin</mat-card-title>
           </mat-card-header>
           <mat-form-field>
-            <input matInput (change)="energyChanged($event)" [(ngModel)]="energyPrice"
+            <input matInput numbersOnly (change)="energyChanged($event)" [(ngModel)]="energyPrice"
               placeholder="Energy Price in Euro [€/kWh]">
           </mat-form-field>
 
@@ -58,7 +61,7 @@
           </mat-card-header>
 
           <mat-form-field>
-            <input matInput (change)="energyChanged($event)" [(ngModel)]="bitcoinPrice"
+            <input matInput numbersOnly (change)="energyChanged($event)" [(ngModel)]="bitcoinPrice"
               placeholder="Bitcoin Prices in Euro [€/BTC]">
           </mat-form-field>
 
@@ -147,7 +150,7 @@
             </div>
             <div>
               <mat-form-field style="width: 33px;">
-                <input matInput (change)="energyChanged($event)" [(ngModel)]="time" placeholder="Years">
+                <input matInput numbersOnly (change)="energyChanged($event)" [(ngModel)]="time" placeholder="Years">
               </mat-form-field>
             </div>
             <div>

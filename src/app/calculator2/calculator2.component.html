@@ -5,14 +5,14 @@
       <div fxLayout="row" fxLayoutGap="25px">
         <div>
           <mat-form-field>
-            <input matInput appNumberMask (change)="valuesChanged($event)" [(ngModel)]="energy"
+            <input matInput numbersOnly appNumberMask (change)="valuesChanged($event)" [(ngModel)]="energy"
               placeholder="Energy in kWh">
           </mat-form-field>
         </div>
 
         <div>
           <mat-form-field>
-            <input matInput (change)="valuesChanged($event)" [(ngModel)]="powerEfficiency"
+            <input matInput numbersOnly (change)="valuesChanged($event)" [(ngModel)]="powerEfficiency"
               placeholder="Power Efficiency in J/TH*">
           </mat-form-field>
         </div>
@@ -28,13 +28,13 @@
         </div>
         <div>
           <mat-form-field>
-            <input matInput (change)="valuesChanged($event)" [(ngModel)]="totalHashPower"
+            <input matInput numbersOnly (change)="valuesChanged($event)" [(ngModel)]="totalHashPower"
               placeholder="Total Hash Power in TH/s**">
           </mat-form-field>
         </div>
         <div>
           <mat-form-field>
-            <input matInput (change)="valuesChanged($event)" [(ngModel)]="blockReward"
+            <input matInput numbersOnly (change)="valuesChanged($event)" [(ngModel)]="blockReward"
               placeholder="Block Reward in BTC***">
           </mat-form-field>
         </div>
@@ -49,7 +49,7 @@
         </div>
         <div>
           <mat-form-field>
-            <input matInput (change)="valuesChanged($event)" [(ngModel)]="btcToEur"
+            <input matInput numbersOnly (change)="valuesChanged($event)" [(ngModel)]="btcToEur"
               placeholder="Bitcoin Price in €/BTC">
           </mat-form-field>
         </div>
