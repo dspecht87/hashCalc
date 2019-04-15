@@ -38,7 +38,7 @@
               <div>
                 <p class="label">Revenue</p>
                 <p class="has-label">
-                  {{ 8760 * this.energy * this.energyPrice | number : '1.2-2' }} €/y * time
+                  {{ totalRevenueWithoutBtc | number : '1.2-2' }} €
                 </p>
               </div>
 
@@ -93,9 +93,8 @@
               <div>
                 <p class="label">Bitcoin per Year</p>
                 <p class="has-label">
-                  {{ this.totalBitcoin  | number: '1.2-2' }}
-                  {{ bitcoinIncome | number : '1.2-2' }}
-                  BTC</p>
+                  {{ this.totalBitcoin  | number: '1.2-2' }} BTC
+                </p>
               </div>
 
             </mat-expansion-panel-header>
@@ -110,7 +109,7 @@
               <div>
                 <p class="label">Revenue after {{ time }} years</p>
                 <p class="has-label">
-                  {{ this.totalEuro | number: '1.2-2' }} €</p>
+                  {{ this.totalRevenueEuro | number: '1.2-2' }} €</p>
               </div>
 
             </mat-expansion-panel-header>

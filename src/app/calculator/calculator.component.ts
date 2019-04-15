@@ -29,6 +29,8 @@ export class CalculatorComponent implements OnInit {
   // price per kwh in euro
   public energyPrice = 0.05;
 
+  public totalRevenueWithoutBtc = 0;
+
   // // revenue with bitcoin
   // hashrate per kwh
   // public hashratePerEnergy =  1 / 53 * 1000;
@@ -47,7 +49,7 @@ export class CalculatorComponent implements OnInit {
   // wartungskosten in %
   public phi = 0.1;
   // total euro
-  public totalEuro = 0;
+  public totalRevenueEuro = 0;
   public totalBitcoin = 0;
 
   // chart
@@ -121,25 +123,36 @@ export class CalculatorComponent implements OnInit {
   }
 
   energyChanged(e) {
-
     this.calc();
   }
 
   calc() {
+    this.calcWithourBtc();
+    this.calcWithBtc();
+    this.generateLabels();
+  }
 
-    // next block reward halving: 24 May 2020 01:19:43
-    let halvingDate = new Date(1590275983000);
+  getBlockReward(time: Date): number {
+    return 0;
+  }
 
-
+  calcWithourBtc() {
     // generate data for without bitcoin
+    this.totalRevenueWithoutBtc = 0;
     let dataWithoutBTC = [];
     for (let i = 0; i < this.time; i++) {
 
-      const value = i * 8760 * this.energy * this.energyPrice;
-      dataWithoutBTC = dataWithoutBTC.concat(value);
-    }
+      const revenue = i * 8760 * this.energy * this.energyPrice;
 
+      dataWithoutBTC = dataWithoutBTC.concat(revenue);
+      this.totalRevenueWithoutBtc = revenue;
+    }
     this.lineChartData[0].data = dataWithoutBTC;
+  }
+
+  calcWithBtc() {
+    // next block reward halving: 24 May 2020 01:19:43
+    let halvingDate = new Date(1590275983000);
 
     // generate data for with bitcoin
 
@@ -159,10 +172,10 @@ export class CalculatorComponent implements OnInit {
 
 
     let totalHashRateDyn = this.totalHashRate;
-    this.totalEuro = 0;
+    this.totalRevenueEuro = 0;
     this.totalBitcoin = 0;
-    for (let i = 1; i <= this.time; i++) {
 
+    for (let i = 1; i <= this.time; i++) {
 
       //increment time cursor + 1 year
       let oldTime = new Date(timeCursor.getTime());
@@ -170,41 +183,44 @@ export class CalculatorComponent implements OnInit {
 
       totalHashRateDyn = totalHashRateDyn * 1.20;
 
-
-      let accReward = 0;
+      // year with halving
       if (halvingDate.getTime() < timeCursor.getTime()) {
+        let euroDelta = 0;
 
         // get fraction of year
         let fractionOfYear = (halvingDate.getTime() - oldTime.getTime()) / (timeCursor.getTime() - oldTime.getTime())
 
-        accReward = fractionOfYear * this.hashRate / (totalHashRateDyn + this.hashRate) * 8760 * 6 * blockReward * this.bitcoinPrice * (1 / (1 - this.phi));
+        euroDelta = fractionOfYear * this.hashRate / (totalHashRateDyn + this.hashRate) * 8760 * 6 * blockReward * this.bitcoinPrice * (1 / (1 - this.phi));
 
         blockReward = blockReward / 2;
 
         // get blocks with new reward
-        accReward += (1 - fractionOfYear) * this.hashRate / (totalHashRateDyn + this.hashRate) * 8760 * 6 * blockReward * this.bitcoinPrice * (1 / (1 - this.phi));
+        euroDelta += (1 - fractionOfYear) * this.hashRate / (totalHashRateDyn + this.hashRate) * 8760 * 6 * blockReward * this.bitcoinPrice * (1 / (1 - this.phi));
 
-        let value = dataWithBTC[i - 1] + accReward;
+        this.totalRevenueEuro = dataWithBTC[i - 1] + euroDelta;
 
         halvingDate.setFullYear(halvingDate.getFullYear() + 4);
 
-        dataWithBTC = dataWithBTC.concat(value);
-        this.totalEuro += value;
-        this.totalBitcoin += value / this.bitcoinPrice;
-
+        // year without halving
       } else {
-        const delta = this.hashRate / (totalHashRateDyn + this.hashRate) * 8760 * 6 * blockReward * this.bitcoinPrice * (1 / (1 - this.phi));
 
-        const value = dataWithBTC[i - 1] + delta;
+        const bitcoinDelta = this.hashRate / (totalHashRateDyn + this.hashRate) * 8760 * 6 * blockReward;
 
-        dataWithBTC = dataWithBTC.concat(value);
-        this.totalEuro += value;
-        this.totalBitcoin += value / this.bitcoinPrice;
+        const euroDelta = bitcoinDelta * this.bitcoinPrice * (1 / (1 - this.phi));
+
+        this.totalRevenueEuro = dataWithBTC[i - 1] + euroDelta;
+
       }
+
+      dataWithBTC = dataWithBTC.concat(this.totalRevenueEuro);
+
+      this.totalBitcoin += this.totalRevenueEuro / this.bitcoinPrice;
 
     }
     this.lineChartData[1].data = dataWithBTC;
+  }
 
+  generateLabels() {
     // generate labels
     let labels = [];
     for (let i = 0; i < this.time; i++) {
