@@ -46,8 +46,10 @@ export class CalculatorComponent implements OnInit {
   public bitcoinPrice = 4215.93;
   // wartungskosten in %
   public phi = 0.1;
-  // total bitcoin
+  // total euro
   public totalEuro = 0;
+  public totalBitcoin = 0;
+
   // chart
   public lineChartData: ChartDataSets[] = [
     { data: [65, 59, 80, 81, 56, 55, 40], label: 'without Bitcoin' },
@@ -158,6 +160,7 @@ export class CalculatorComponent implements OnInit {
 
     let totalHashRateDyn = this.totalHashRate;
     this.totalEuro = 0;
+    this.totalBitcoin = 0;
     for (let i = 1; i <= this.time; i++) {
 
 
@@ -187,6 +190,7 @@ export class CalculatorComponent implements OnInit {
 
         dataWithBTC = dataWithBTC.concat(value);
         this.totalEuro += value;
+        this.totalBitcoin += value / this.bitcoinPrice;
 
       } else {
         const delta = this.hashRate / (totalHashRateDyn + this.hashRate) * 8760 * 6 * blockReward * this.bitcoinPrice * (1 / (1 - this.phi));
@@ -195,6 +199,7 @@ export class CalculatorComponent implements OnInit {
 
         dataWithBTC = dataWithBTC.concat(value);
         this.totalEuro += value;
+        this.totalBitcoin += value / this.bitcoinPrice;
       }
 
     }
