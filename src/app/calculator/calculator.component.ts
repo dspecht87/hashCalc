@@ -67,7 +67,7 @@ export class CalculatorComponent implements OnInit {
       callbacks: {
         title: function (tooltipItems, data) {
           console.log(tooltipItems);
-          return 'After ' + tooltipItems[0].label + ' years:'
+          return 'After ' + tooltipItems[0].xLabel + ' years:'
         },
         label: function(tooltipItems, data) { 
             return new DecimalPipe('en-US').transform(tooltipItems.yLabel, '1.0-0') + ' €';
