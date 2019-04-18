@@ -57,7 +57,7 @@
       <div fxFlex="1 1 calc(50% - 32px)">
         <mat-card>
           <mat-card-header>
-            <mat-card-title>With Bitcoin</mat-card-title>
+            <mat-card-title>With Bitcoin it would be {{ Math.abs(profitabilityWithBitcoin -1) * 100 | number: '1.0-0' }}% {{ profitabilityWithBitcoin > 1 ? 'more' : 'less' }} profitable</mat-card-title>
           </mat-card-header>
 
           <mat-form-field>
@@ -78,10 +78,10 @@
             <p>Hash Rate = Energy * (1 / Power Efficiency) </p>
 
             <mat-form-field>
-              <mat-label>Power Efficiency(PE)</mat-label>
+              <mat-label>Power Efficiency</mat-label>
               <mat-select (selectionChange)="energyChanged($event)" [(ngModel)]="selectedMiner">
 
-                <mat-option [value]="miner" *ngFor="let miner of MINERS">{{miner.name}}</mat-option>
+                <mat-option [value]="miner" *ngFor="let miner of MINERS">{{miner.powerEfficiency}} J/TH: {{miner.name}}</mat-option>
 
               </mat-select>
             </mat-form-field>
@@ -91,7 +91,7 @@
           <mat-expansion-panel>
             <mat-expansion-panel-header>
               <div>
-                <p class="label">Bitcoin per Year</p>
+                <p class="label">Bitcoin after {{ time }} years</p>
                 <p class="has-label">
                   {{ this.totalBitcoin  | number: '1.2-2' }} BTC
                 </p>
@@ -99,7 +99,7 @@
 
             </mat-expansion-panel-header>
             <p class="label">Formula</p>
-            <p>Bitcoin = Hash Rate * Hash Rate / (Total Hash Rate + Hash Rate) * 8760 * 6 * Block Reward</p>
+            <p>Bitcoin = Hash Rate * Hash Rate / (Total Hash Rate + Hash Rate) * Time * Block Reward</p>
             <p class="label">Total Hash Rate</p>
             <p>{{ this.totalHashRate | number:  '1.2-2' }} THs</p>
           </mat-expansion-panel>

@@ -14,6 +14,7 @@ import { MINERS, Miner } from '../_model/miner';
 })
 export class CalculatorComponent implements OnInit {
 
+  Math = Math;
 
   public MINERS = MINERS;
 
@@ -52,6 +53,9 @@ export class CalculatorComponent implements OnInit {
   public totalRevenueEuro = 0;
   public totalBitcoin = 0;
 
+  // less/more profitable with bitcoin in %
+  public profitabilityWithBitcoin = 0;
+
   // chart
   public lineChartData: ChartDataSets[] = [
     { data: [65, 59, 80, 81, 56, 55, 40], label: 'without Bitcoin' },
@@ -59,6 +63,17 @@ export class CalculatorComponent implements OnInit {
   ];
   public lineChartLabels: Label[] = [];
   public lineChartOptions: (ChartOptions & { annotation: any }) = {
+    tooltips: {
+      callbacks: {
+        title: function (tooltipItems, data) {
+          console.log(tooltipItems);
+          return 'After ' + tooltipItems[0].label + ' years:'
+        },
+        label: function(tooltipItems, data) { 
+            return new DecimalPipe('en-US').transform(tooltipItems.yLabel, '1.0-0') + ' €';
+        }
+      }
+    },
     responsive: true,
     scales: {
       // We use this empty structure as a placeholder for dynamic theming.
@@ -82,7 +97,20 @@ export class CalculatorComponent implements OnInit {
       ]
     },
     annotation: {
-      annotations: [],
+      annotations: [
+        {
+          type: 'line',
+          mode: 'vertical',
+          value: '2',
+          borderColor: 'orange',
+          borderWidth: 2,
+          label: {
+            enabled: true,
+            fontColor: 'orange',
+            content: 'LineAnno'
+          }
+        },
+      ],
     },
   };
   public lineChartColors: Color[] = [
@@ -130,6 +158,8 @@ export class CalculatorComponent implements OnInit {
     this.calcWithourBtc();
     this.calcWithBtc();
     this.generateLabels();
+
+    this.profitabilityWithBitcoin = this.totalRevenueEuro / this.totalRevenueWithoutBtc;
   }
 
   getBlockReward(time: Date): number {
@@ -140,7 +170,7 @@ export class CalculatorComponent implements OnInit {
     // generate data for without bitcoin
     this.totalRevenueWithoutBtc = 0;
     let dataWithoutBTC = [];
-    for (let i = 0; i < this.time; i++) {
+    for (let i = 0; i <= this.time; i++) {
 
       const revenue = i * 8760 * this.energy * this.energyPrice;
 
@@ -223,7 +253,7 @@ export class CalculatorComponent implements OnInit {
   generateLabels() {
     // generate labels
     let labels = [];
-    for (let i = 0; i < this.time; i++) {
+    for (let i = 0; i <= this.time; i++) {
       labels = labels.concat(+i);
     }
     this.lineChartLabels = labels;
