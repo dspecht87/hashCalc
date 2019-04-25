@@ -97,20 +97,7 @@ export class CalculatorComponent implements OnInit {
       ]
     },
     annotation: {
-      annotations: [
-        {
-          type: 'line',
-          mode: 'vertical',
-          value: '2',
-          borderColor: 'orange',
-          borderWidth: 2,
-          label: {
-            enabled: true,
-            fontColor: 'orange',
-            content: 'LineAnno'
-          }
-        },
-      ],
+      annotations: [],
     },
   };
   public lineChartColors: Color[] = [
@@ -254,7 +241,7 @@ export class CalculatorComponent implements OnInit {
     // generate labels
     let labels = [];
     for (let i = 0; i <= this.time; i++) {
-      labels = labels.concat(+i);
+      labels = labels.concat(i.toString());
     }
     this.lineChartLabels = labels;
   }

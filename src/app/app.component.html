@@ -4,7 +4,6 @@
 
   <div fxFlex="1 1 0"></div>
 
-
   <div fxFlex="0 1 1200px">
 
     <div style="text-align:center">
@@ -14,18 +13,14 @@
             <img class="logo" src="assets/LogoRGB_White_Color.svg" alt="Northern Bitcoin" width="180">
           </div>
           <div>
-              <p class="heading-text">Mining revenue calculator</p>
+            <p class="heading-text">Mining revenue calculator</p>
           </div>
         </div>
-          
-          
-        
+
       </mat-toolbar>
 
       <nav mat-tab-nav-bar>
-        <a mat-tab-link *ngFor="let link of navLinks" 
-        [routerLink]="link.link" 
-        routerLinkActive #rla="routerLinkActive"
+        <a mat-tab-link *ngFor="let link of navLinks" [routerLink]="link.link" routerLinkActive #rla="routerLinkActive"
           [active]="rla.isActive">
           {{link.label}}
         </a>
@@ -41,5 +36,12 @@
 </div>
 
 <div class="footer">
-  <a href="https://northernbitcoin.com/impressum/">Impressum</a>
+  <div fxLayout="column">
+    <div>
+      <img src="assets/northernbitcoin_w.svg" alt="Northern Bitcoin" width="80">
+    </div>
+    <div>
+      <a href="https://northernbitcoin.com/impressum/">Impressum</a>
+    </div>
+  </div>
 </div>

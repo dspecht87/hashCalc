@@ -10,9 +10,33 @@ export class Miner {
 
 export const MINERS: Miner[] = [
    {
+      name: "Antminer S17 Pro - Normal",
+      hashRate: 53,
+      powerEfficiency: 39.5,
+      price: 2599
+   },
+   {
+      name: "Antminer S17 Pro - Turbo",
+      hashRate: 62,
+      powerEfficiency: 45,
+      price: 2599
+   },
+   {
+      name: "Antminer S17 Pro - Low Power",
+      hashRate: 36,
+      powerEfficiency: 36,
+      price: 2599
+   },
+   {
       name: "Antminer S17 - Normal Mode",
       hashRate: 56,
       powerEfficiency: 45,
+      price: 2450
+   },
+   {
+      name: "Antminer S17 - Low Power",
+      hashRate: 35,
+      powerEfficiency: 42,
       price: 2450
    },
    {
