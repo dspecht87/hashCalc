@@ -44,7 +44,8 @@ export class ExchangeRateService {
   }
 
   private requestTotalHashRate() {
-    this.totalHashRate$ = this.http.get<number>("https://blockchain.info/q/hashrate").pipe(
+    this.totalHashRate$ = this.http.get<number>("https://chain.so/api/v2/get_info/btc").pipe(
+      map(x => + x['data']['hashrate']),
       shareReplay(1)
     );
   }

@@ -131,7 +131,9 @@ export class CalculatorComponent implements OnInit {
     this.exchangeRateService.btcToEur.subscribe(btcToEur => {
       this.bitcoinPrice = btcToEur;
       this.exchangeRateService.totalHashRate.subscribe(totalHashRate => {
-        this.totalHashRate = (+ totalHashRate) / 1000;
+        console.log(totalHashRate);
+        // tera 1000^4
+        this.totalHashRate = (+ totalHashRate) / 1000 / 1000 / 1000 / 1000;
         this.calc();
       })
     });
@@ -177,7 +179,11 @@ export class CalculatorComponent implements OnInit {
 
     let blockReward = 12.5;
 
-    this.bitcoinIncome = this.hashRate / (this.totalHashRate + this.hashRate) * 8760 * 6 * 12.5;
+    console.log(this.hashRate);
+    console.log(this.totalHashRate + this.hashRate);
+    console.log(this.hashRate / (this.totalHashRate + this.hashRate));
+
+    this.bitcoinIncome = this.hashRate / (this.totalHashRate + this.hashRate) * 365 * 144 * blockReward;
     this.euroIncome = this.bitcoinIncome * this.bitcoinPrice;
 
     let dataWithBTC = [];
